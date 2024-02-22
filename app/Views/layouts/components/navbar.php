@@ -82,19 +82,3 @@
         </div>
     </nav>
 </header>
-<?= $this->section('scripts'); ?>
-
-<script>
-    $('#logout').on('click', () => {
-        const data = {
-            title: 'Logout',
-            text: 'Apakah kamu ingin keluar dari aplikasi?',
-            buttonText: 'Ya, logout!',
-            url: '<?= base_url('auth/logout') ?>',
-            redirectTo: '<?= base_url('auth/login') ?>',
-            method: "DELETE"
-        }
-        confirmSwalHandler(data);
-    })
-</script>
-<?= $this->endSection(); ?>

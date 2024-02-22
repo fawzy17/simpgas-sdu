@@ -5,10 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $title ?></title>
-    <link rel="stylesheet" href="<?= base_url('assets/css/app.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/table-datatable-jquery.css'); ?>">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/dataTables.bootstrap5.min.css'); ?>">
+
+    <!-- datatable -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/dataTables.min.css'); ?>">
+
+    <!-- sweetalert -->
     <link rel="stylesheet" href="<?= base_url('assets/css/sweetalert2.min.css'); ?>">
+
+    <!-- main -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/main.css'); ?>">
     <?= $this->renderSection('heads'); ?>
 </head>
 <body>

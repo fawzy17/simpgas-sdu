@@ -3,14 +3,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <?php
-                        $dashboard_routes = [
-                            1 => '/superadmin/dashboard',
-                            2 => '/admin/dashboard',
-                            3 => '/dashboard'
-                        ];
-                     ?>
-                    <a class="fs-5 fw-bold d-flex gap-2 align-items-center" href="<?= base_url($dashboard_routes[session()->get('role_id')]); ?>">
+                    <a class="fs-5 fw-bold d-flex gap-2 align-items-center" href="<?= base_url()?>">
                         <!-- <div class="border border-danger p-1 rounded">
                             <img src="<?= base_url('assets/images/logo.png'); ?>" alt="logo" width="32px">
                         </div> -->
@@ -52,16 +45,16 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'collaborators' ? 'active' : '' ?>">
-                        <a href="<?= base_url('/admin/collaborators'); ?>" class='sidebar-link'>
-                            <i class="bi bi-people-fill"></i>
-                            <span>Collaborators</span>
-                        </a>
-                    </li>
                     <li class="sidebar-item <?= service('uri')->getSegment(2) == 'events' ? 'active' : '' ?>">
                         <a href="<?= base_url('/admin/events'); ?>" class='sidebar-link'>
-                            <i class="bi bi-balloon-heart-fill"></i>
-                            <span>Events</span>
+                            <i class="bi bi-people-fill"></i>
+                            <span>Mitra</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'collaborators' ? 'active' : '' ?>">
+                        <a href="<?= base_url('/admin/collaborators'); ?>" class='sidebar-link'>
+                            <i class="bi bi-database"></i>
+                            <span>Tabung</span>
                         </a>
                     </li>
                 </ul>
