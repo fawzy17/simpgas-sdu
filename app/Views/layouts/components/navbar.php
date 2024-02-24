@@ -29,7 +29,7 @@
                                     <div class="avatar avatar-md">
                                         <?php
                                         $imageProfile = base_url('assets/' . session()->get('image'));
-                                        if (session()->get('role_id') == 3) $imageProfile = session()->get('image');
+                                        session()->get('role_id') == 3 ? $imageProfile = session()->get('image') : $imageProfile = base_url('assets/img/person.png');
                                         ?>
                                         <img src="<?= $imageProfile ?>" alt="profile">
                                     </div>

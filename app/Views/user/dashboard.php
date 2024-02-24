@@ -54,6 +54,17 @@
 </section>
 <!-- Basic Tables end -->
 
+<form action="<?= base_url('/send-email'); ?>" method="POST">
+    <input id="to" name="to" type="text">
+    <label for="to">to</label>
+    <input id="subject" name="subject" type="text">
+    <label for="subject">subject</label>
+    <input id="message" name="message" type="text">
+    <label for="message">message</label>
+
+    <button type="submit">Submit</button>
+</form>
+
 
 <?= $this->endSection(); ?>
 
@@ -83,5 +94,26 @@
             })
         <?php endif; ?>
     })
+    $(() => {
+        <?php if (session()->has('error_message')) : ?>
+            Swal.fire({
+                icon: 'error',
+                text: '<?= session()->getFlashdata('error_message') ?>',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        <?php endif; ?>
+    })
 </script>
+
+<script>
+    function showLoading() {
+        document.getElementById('loading').style.display = 'block';
+    }
+
+    function hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+    }
+</script>
+
 <?= $this->endSection(); ?>

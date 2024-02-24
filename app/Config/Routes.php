@@ -11,6 +11,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', [Home::class, 'index']);
 $routes->get('/home', [Home::class, 'index']);
+$routes->post('/send-email', [Home::class, 'send_email']);
 
 $routes->group(
     'auth',
