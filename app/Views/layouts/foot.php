@@ -8,9 +8,7 @@
 <script src="<?= base_url('assets/js/sweetalert2.min.js'); ?>"></script>
 
 <!-- Data Tables -->
-<script src="<?= base_url('assets/js/jquery.dataTables.min.js')?>"></script>
-<script src="<?= base_url('assets/js/dataTables.bootstrap5.min.js'); ?>"></script>
-<script src="<?= base_url('assets/js/datatables.js'); ?>"></script>
+<script src="<?= base_url('assets/js/dataTables.js'); ?>"></script>
 
 <!-- index -->
 <script src="<?= base_url('assets/js/index.js'); ?>"></script>

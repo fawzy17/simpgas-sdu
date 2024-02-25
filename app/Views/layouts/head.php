@@ -7,10 +7,9 @@
     <title><?= $title ?></title>
     <!-- bootstrap -->
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/dataTables.bootstrap5.min.css'); ?>">
-
+    
     <!-- datatable -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/dataTables.min.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/dataTables.dataTables.css'); ?>">
 
     <!-- sweetalert -->
     <link rel="stylesheet" href="<?= base_url('assets/css/sweetalert2.min.css'); ?>">

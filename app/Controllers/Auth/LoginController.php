@@ -3,6 +3,7 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
+use App\Controllers\Home;
 use App\Models\UserModel;
 use Google_Client;
 
@@ -49,7 +50,7 @@ class LoginController extends BaseController
             $data = [
                 'title' => 'Login',
                 'validation' => $this->validator,
-                'link' => $this->googleClient->createAuthUrl()  
+                'link' => $this->googleClient->createAuthUrl()
             ];
 
             return view('auth/login', $data);
@@ -75,6 +76,7 @@ class LoginController extends BaseController
             'username' => $user->username,
             'role_id' => $user->role_id,
             'verified' => $user->verified,
+            'avatar' => $user->avatar,
             'logged_in' => true,
         ];
 
@@ -95,9 +97,10 @@ class LoginController extends BaseController
                 $entity = new \App\Entities\UserEntity();
                 $entity->email = $userData['email'];
                 $entity->username = $userData['givenName'];
+                $entity->avatar = $userData['picture'];
                 $entity->role_id = 3;
                 $entity->verified = 0;
-                // $entity->image = $userData['picture'];
+                $entity->image = $userData['picture'];
 
                 $userModel = new UserModel();
                 $user = $userModel->withDeleted()->where('email', $entity->email)->first();
@@ -107,26 +110,27 @@ class LoginController extends BaseController
                         'username' => $user->username,
                         'role_id' => $user->role_id,
                         'verified' => $user->verified,
+                        'avatar' => $user->avatar,
                         'logged_in' => true,
                     ];
 
                     session()->set($dataSession);
-                    return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil masuk, selamat datang, ' . $user->username);
+                    return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil masuk, selamat datang ' . $user->username);
                 } else {
                     $userModel->save($entity);
 
                     $userNew = $userModel->where('email', $entity->email)->first();
 
-                    $dataSession = [
+                    $dataSession = $entity->toArray() + [
                         'id' => $userNew->id,
-                        'username' => $userNew->username,
-                        'role_id' => $userNew->role_id,
-                        'verified' => $userNew->verified,
                         'logged_in' => true,
                     ];
+                    $sendEmailController = new Home();
+                    $sendEmailController->send_email($entity->email, "PT. SUMA DELTA UTAMA (SDU)", "Akun " . $entity->email . " berhasil didaftarkan");
+
 
                     session()->set($dataSession);
-                    return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil masuk, selamat datang, ' . $userNew->username);
+                    return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang ' . $userNew->username);
                 }
 
                 //    tinggal masuk insert ke database dan set session

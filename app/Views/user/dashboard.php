@@ -1,4 +1,7 @@
 <?= $this->extend('layouts/main'); ?>
+<?= $this->section('heads'); ?>
+
+<?= $this->endSection(); ?>
 <?= $this->section('page_title'); ?>
 <?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Dashboard', 'description' => 'Kelola data Anda disini']); ?>
 <?= $this->endSection(); ?>
@@ -14,40 +17,126 @@
             </h5>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped" id="table1" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Name</th>
-                            <th>Name</th>
-                            <th>Name</th>
-                            <th>Name</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>City</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Graiden</td>
-                            <td>Graiden</td>
-                            <td>Graiden</td>
-                            <td>Graiden</td>
-                            <td>Graiden</td>
-                            <td>Graiden</td>
-                            <td>vehicula .aliquet@</td>
-                            <td>076 4820 8838</td>
-                            <td>Offenburg</td>
-                            <td>
-                                <span class="badge bg-success">Active</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <table id="table1" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Namedada ad aw da</th>
+                        <th>Name</th>
+                        <th>Name</th>
+                        <th>Name</th>
+                        <th>Name</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>City</th>
+                        <th>City</th>
+                        <th>City</th>
+                        <th>City</th>
+                        <th>City</th>
+                        <th>Status</th>
+                        <th>Status</th>
+                        <th>Status</th>
+                        <th>Status</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>vehicula .aliquet@</td>
+                        <td>076 4820 8838</td>
+                        <td>Offenburg</td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>vehicula .aliquet@</td>
+                        <td>076 4820 8838</td>
+                        <td>Offenburg</td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>Graiden</td>
+                        <td>vehicula .aliquet@</td>
+                        <td>076 4820 8838</td>
+                        <td>Offenburg</td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">Active</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -72,7 +161,7 @@
 <script>
     let jquery_datatable = $("#table1").DataTable({
         responsive: true,
-        scrollX: true
+        scrollX: true,
     })
 
     const setTableColor = () => {
@@ -104,16 +193,6 @@
             })
         <?php endif; ?>
     })
-</script>
-
-<script>
-    function showLoading() {
-        document.getElementById('loading').style.display = 'block';
-    }
-
-    function hideLoading() {
-        document.getElementById('loading').style.display = 'none';
-    }
 </script>
 
 <?= $this->endSection(); ?>

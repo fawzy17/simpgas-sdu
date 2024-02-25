@@ -14,11 +14,9 @@ class Home extends BaseController
         return view('index');
     }
 
-    public function send_email()
+    public function send_email($to, $subject, $message)
     {
-        $to                 = $this->request->getPost('to');
-        $subject            = $this->request->getPost('subject');
-        $message            = $this->request->getPost('message');
+
 
         $mail = new PHPMailer(true);
         
@@ -40,12 +38,18 @@ class Home extends BaseController
             // Isi Email
             $mail->isHTML(true);
             $mail->Subject = $subject;
-            $mail->Body    = '<h1>Hello!</h1><p>This is an' . $message . 'HTML email.</p>';
+            $mail->Body    = $message;
             $mail->send();
 
-            return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil mengirim email');
+            return [
+                'success' => true,
+                'message' => 'Email sent successfully.',
+            ];
         } catch (Exception $e) {
-            return redirect()->to(base_url('/dashboard'))->with('error_message', 'Gagal mengirim email');
+            return [
+                'success' => false,
+                'message' => 'Email failed to send. Error: ' . $e,
+            ];
         }
     }
 }

@@ -28,8 +28,8 @@
                                 <div class="user-img d-flex align-items-center">
                                     <div class="avatar avatar-md">
                                         <?php
-                                        $imageProfile = base_url('assets/' . session()->get('image'));
-                                        session()->get('role_id') == 3 ? $imageProfile = session()->get('image') : $imageProfile = base_url('assets/img/person.png');
+                                        $imageProfile = base_url('assets/' . session()->get('avatar'));
+                                        session()->get('avatar') != null ? $imageProfile = session()->get('avatar') : $imageProfile = base_url('assets/img/person.png');
                                         ?>
                                         <img src="<?= $imageProfile ?>" alt="profile">
                                     </div>

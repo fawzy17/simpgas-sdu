@@ -43,6 +43,11 @@ class UserMigration extends Migration
                 'constraint' => 1,
                 'default' => 0
             ],
+            'avatar' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'default' => 'img/person.png'
+            ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'deleted_at DATETIME DEFAULT NULL',
