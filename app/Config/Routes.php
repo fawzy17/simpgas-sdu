@@ -1,9 +1,11 @@
 <?php
 
+use App\Controllers\Admin\AdminDashboardController;
+use App\Controllers\Admin\AdminTabungController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\Home;
-use App\Controllers\User\DashboardController;
+use App\Controllers\User\UserDashboardController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -28,4 +30,20 @@ $routes->group(
     }
 );
 
-$routes->get('dashboard', [DashboardController::class, 'index']);
+$routes->group(
+    '/',
+    ['filter' => 'AuthFilter'],
+    function ($routes) {
+        $routes->get('dashboard', [UserDashboardController::class, 'index']);
+
+        $routes->group('admin', function ($routes) {
+            $routes->get('dashboard', [AdminDashboardController::class, 'index']);
+            $routes->group('tabung', function($routes){
+                $routes->get('/', [AdminTabungController::class, 'index']);
+                $routes->get('new', [AdminTabungController::class, 'new']);
+                $routes->post('new', [AdminTabungController::class, 'store']);
+            });
+
+        });
+    }
+);

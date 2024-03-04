@@ -46,13 +46,13 @@
                         </a>
                     </li>
                     <li class="sidebar-item <?= service('uri')->getSegment(2) == 'events' ? 'active' : '' ?>">
-                        <a href="<?= base_url('/admin/events'); ?>" class='sidebar-link'>
+                        <a href="<?= base_url('/admin/mitra'); ?>" class='sidebar-link'>
                             <i class="bi bi-people-fill"></i>
                             <span>Mitra</span>
                         </a>
                     </li>
-                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'collaborators' ? 'active' : '' ?>">
-                        <a href="<?= base_url('/admin/collaborators'); ?>" class='sidebar-link'>
+                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'tabung' ? 'active' : '' ?>">
+                        <a href="<?= base_url('/admin/tabung'); ?>" class='sidebar-link'>
                             <i class="bi bi-database"></i>
                             <span>Tabung</span>
                         </a>

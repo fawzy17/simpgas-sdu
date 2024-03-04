@@ -39,9 +39,12 @@ class RegisterController extends BaseController
         ];
 
         if (session()->get('logged_in')) {
-            return redirect()->to(base_url('/dashboard'));
+            if (session()->get('role_id') == 1 || session()->get('role_id') == 2) {
+                return redirect()->to(base_url('admin/dashboard'));
+            } else {
+                return redirect()->to(base_url('/dashboard'));
+            }
         };
-
         return view('auth/register', $data);
     }
 
@@ -81,7 +84,13 @@ class RegisterController extends BaseController
         $sendEmailController->send_email($user->email, "PT. SUMA DELTA UTAMA (SDU)", "Akun berhasil " . $user->email . " didaftarkan");
 
         session()->set($dataSession);
-        return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang, ' . $user->username);
+        if (session()->get('logged_in')) {
+            if (session()->get('role_id') == 1 || session()->get('role_id') == 2) {
+                return redirect()->to(base_url('admin/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang, ' . $user->username);
+            } else {
+                return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang, ' . $user->username);
+            }
+        };
     }
 
     public function registerGoogle()
@@ -112,7 +121,13 @@ class RegisterController extends BaseController
                 ];
 
                 session()->set($dataSession);
-                return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil masuk, selamat datang ' . $user->username);
+                if (session()->get('logged_in')) {
+                    if (session()->get('role_id') == 1 || session()->get('role_id') == 2) {
+                        return redirect()->to(base_url('admin/dashboard'))->with('success_message', 'Berhasil login, selamat datang, ' . $user->username);
+                    } else {
+                        return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil login, selamat datang, ' . $user->username);
+                    }
+                };
             } else {
                 $userModel->save($entity);
                 $userNew = $userModel->where('email', $entity->email)->first();
@@ -126,7 +141,13 @@ class RegisterController extends BaseController
                 $sendEmailController->send_email($entity->email, "PT. SUMA DELTA UTAMA (SDU)", "Akun " . $entity->email . " berhasil didaftarkan");
 
                 session()->set($dataSession);
-                return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang ' . $userNew->username);
+                if (session()->get('logged_in')) {
+                    if (session()->get('role_id') == 1 || session()->get('role_id') == 2) {
+                        return redirect()->to(base_url('admin/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang, ' . $userNew->username);
+                    } else {
+                        return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang, ' . $userNew->username);
+                    }
+                };
             }
         }
     }

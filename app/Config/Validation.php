@@ -92,4 +92,31 @@ class Validation extends BaseConfig
             ]
         ]
     ];
+
+    public array $tabung = [
+        'name' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Nama tabung harus diisi'
+            ]
+        ],
+        'category' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Kategory tabung harus diisi'
+            ]
+        ],
+        'size' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Ukuran tabung harus diisi'
+            ]
+        ],
+        'weight' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Berat tabung harus diisi'
+            ]
+        ],
+    ];
 }

@@ -36,7 +36,11 @@ class LoginController extends BaseController
         ];
 
         if (session()->get('logged_in')) {
-            return redirect()->to(base_url('/dashboard'));
+            if (session()->get('role_id') == 1 || 2) {
+                return redirect()->to(base_url('admin/dashboard'));
+            } else {
+                return redirect()->to(base_url('/dashboard'));
+            }
         };
 
         return view('auth/login', $data);
@@ -81,7 +85,13 @@ class LoginController extends BaseController
         ];
 
         session()->set($dataSession);
-        return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil login, selamat datang, ' . $user->username);
+        if (session()->get('logged_in')) {
+            if (session()->get('role_id') == 1 || session()->get('role_id') == 2) {
+                return redirect()->to(base_url('admin/dashboard'))->with('success_message', 'Berhasil login, selamat datang, ' . $user->username);
+            } else {
+                return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil login, selamat datang, ' . $user->username);
+            }
+        };
     }
 
     public function loginGoogle()
@@ -115,7 +125,13 @@ class LoginController extends BaseController
                     ];
 
                     session()->set($dataSession);
-                    return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil masuk, selamat datang ' . $user->username);
+                    if (session()->get('logged_in')) {
+                        if (session()->get('role_id') == 1 || session()->get('role_id') == 2) {
+                            return redirect()->to(base_url('admin/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang, ' . $user->username);
+                        } else {
+                            return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang, ' . $user->username);
+                        }
+                    };
                 } else {
                     $userModel->save($entity);
 
@@ -130,10 +146,14 @@ class LoginController extends BaseController
 
 
                     session()->set($dataSession);
-                    return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil mendaftar, selamat datang ' . $userNew->username);
+                    if (session()->get('logged_in')) {
+                        if (session()->get('role_id') == 1 || session()->get('role_id') == 2) {
+                            return redirect()->to(base_url('admin/dashboard'))->with('success_message', 'Berhasil login, selamat datang, ' . $userNew->username);
+                        } else {
+                            return redirect()->to(base_url('/dashboard'))->with('success_message', 'Berhasil login, selamat datang, ' . $userNew->username);
+                        }
+                    };
                 }
-
-                //    tinggal masuk insert ke database dan set session
             }
         } else {
             return redirect()->to(base_url('auth/login'));
