@@ -119,4 +119,26 @@ class Validation extends BaseConfig
             ]
         ],
     ];
+
+    public array $mitra = [
+        'name' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Nama mitra harus diisi'
+            ]
+        ],
+        'tubes_borrowed' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Jumlah tabung yang dipinjam harus diisi'
+            ]
+        ],
+        'address' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Alamat mitra wajib diisi'
+            ]
+        ]
+
+    ];
 }

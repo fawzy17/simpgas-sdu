@@ -3,7 +3,7 @@
 
 <?= $this->endSection(); ?>
 <?= $this->section('page_title'); ?>
-<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Tabung', 'description' => 'Isi form dibawah untuk menambahkan data tabung']); ?>
+<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Mitra', 'description' => 'Isi form dibawah untuk menambahkan data mitra']); ?>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <?= form_open(base_url('admin/tabung/new')) ?>
+                        <?= form_open(base_url('admin/mitra/new')) ?>
                         <?php if (isset($validation)) : ?>
                             <div class="row">
                                 <div class="col-md-6 col-12">
@@ -29,32 +29,19 @@
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="category">Kategori</label>
-                                        <select id="category" name="category" class="choices form-select <?= $validation->hasError('category') ? 'is-invalid' : ''; ?>">
-                                            <option value="1">Gass</option>
-                                            <option value="2">Liquid</option>
-                                            <option value="3">Solid</option>
-                                        </select>
+                                        <label for="tubes_borrowed">Tabung yang dipinjam</label>
+                                        <input type="number" id="tubes_borrowed" class="form-control <?= $validation->hasError('tubes_borrowed') ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="tubes_borrowed">
                                         <div class="invalid-feedback">
-                                            <?= $validation->getError('category'); ?>
+                                            <?= $validation->getError('tubes_borrowed'); ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="size">Ukuran (L)</label>
-                                        <input type="number" id="size" class="form-control <?= $validation->hasError('size') ? 'is-invalid' : ''; ?>" placeholder="Dalam Litre" name="size">
+                                        <label for="address">Alamat Mitra</label>
+                                        <input type="text" id="address" class="form-control <?= $validation->hasError('address') ? 'is-invalid' : ''; ?>" placeholder="Jl. xxxxxx" name="address">
                                         <div class="invalid-feedback">
-                                            <?= $validation->getError('size'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="weight">Berat (KG)</label>
-                                        <input type="number" id="weight" class="form-control <?= $validation->hasError('weight') ? 'is-invalid' : ''; ?>" name="weight" placeholder="Dalam Kilogram">
-                                        <div class="invalid-feedback">
-                                            <?= $validation->getError('weight'); ?>
+                                            <?= $validation->getError('address'); ?>
                                         </div>
                                     </div>
                                 </div>

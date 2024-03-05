@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\Admin\AdminDashboardController;
+use App\Controllers\Admin\AdminMitraController;
 use App\Controllers\Admin\AdminTabungController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
@@ -13,7 +14,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', [Home::class, 'index']);
 $routes->get('/home', [Home::class, 'index']);
-// $routes->post('/send-email', [Home::class, 'send_email']);
 
 $routes->group(
     'auth',
@@ -43,7 +43,11 @@ $routes->group(
                 $routes->get('new', [AdminTabungController::class, 'new']);
                 $routes->post('new', [AdminTabungController::class, 'store']);
             });
-
+            $routes->group('mitra', function($routes){
+                $routes->get('/', [AdminMitraController::class, 'index']);
+                $routes->get('new', [AdminMitraController::class, 'new']);
+                $routes->post('new', [AdminMitraController::class, 'store']);
+            });
         });
     }
 );

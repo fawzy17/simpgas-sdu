@@ -19,15 +19,15 @@ class Home extends BaseController
 
 
         $mail = new PHPMailer(true);
-        
+
         try {
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;
             $mail->isSMTP();
             $mail->isHTML();
             $mail->Host       = 'smtp.googlemail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'rayrizkyfawzy@gmail.com'; // ubah dengan alamat email Anda
-            $mail->Password   = 'kbgi evwq rdyx tnec'; // ubah dengan app password email Anda
+            $mail->Username   = 'bitcoinid86@gmail.com'; // ubah dengan alamat email Anda
+            $mail->Password   = 'tqap vbnc gttf ldgu '; // ubah dengan app password email Anda
             $mail->SMTPSecure = 'ssl';
             $mail->Port       = 465;
 
@@ -40,16 +40,20 @@ class Home extends BaseController
             $mail->Subject = $subject;
             $mail->Body    = $message;
             $mail->send();
-
-            return [
+            $response = [
                 'success' => true,
                 'message' => 'Email sent successfully.',
             ];
+
+            
+            return $response;
         } catch (Exception $e) {
-            return [
+
+            $response = [
                 'success' => false,
                 'message' => 'Email failed to send. Error: ' . $e,
             ];
+            return $response;
         }
     }
 }

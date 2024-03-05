@@ -45,7 +45,7 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'events' ? 'active' : '' ?>">
+                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'mitra' ? 'active' : '' ?>">
                         <a href="<?= base_url('/admin/mitra'); ?>" class='sidebar-link'>
                             <i class="bi bi-people-fill"></i>
                             <span>Mitra</span>
