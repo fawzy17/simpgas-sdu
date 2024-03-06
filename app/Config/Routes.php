@@ -50,7 +50,9 @@ $routes->group(
                 $routes->get('list', [AdminMitraController::class, 'list']);
                 $routes->get('request', [AdminMitraController::class, 'request']);
                 $routes->get('new', [AdminMitraController::class, 'new']);
-                $routes->post('new', [AdminMitraController::class, 'store']);
+                $routes->post('store', [AdminMitraController::class, 'store']);
+                $routes->get('edit/(:num)', [AdminMitraController::class, 'edit']);
+                $routes->post('update/(:num)', [AdminMitraController::class, 'update']);
                 $routes->post('approve', [AdminMitraController::class, 'approve']);
                 $routes->post('reject', [AdminMitraController::class, 'reject']);
                 $routes->post('revert', [AdminMitraController::class, 'revert']);

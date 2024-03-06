@@ -15,13 +15,13 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <?= form_open(base_url('admin/mitra/store')) ?>
+                        <?= form_open(base_url('admin/mitra/update/'. $mitra->id)) ?>
                         <?php if (isset($validation)) : ?>
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="name">Nama</label>
-                                        <input type="text" id="name" class="form-control <?= $validation->hasError('name') ? 'is-invalid' : ''; ?>" placeholder="PT. xxxx" name="name" value="<?= set_value('name', old('name')); ?>">
+                                        <input type="text" id="name" class="form-control <?= $validation->hasError('name') ? 'is-invalid' : ''; ?>" placeholder="PT. xxxx" name="name" value="<?= set_value('name', $mitra != null ? $mitra->name : old('name')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('name'); ?>
                                         </div>
@@ -30,7 +30,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="tubes_borrowed">Tabung yang dipinjam</label>
-                                        <input type="number" id="tubes_borrowed" class="form-control <?= $validation->hasError('tubes_borrowed') ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="tubes_borrowed" value="<?= set_value('tubes_borrowed', old('tubes_borrowed')); ?>">
+                                        <input type="number" id="tubes_borrowed" class="form-control <?= $validation->hasError('tubes_borrowed') ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="tubes_borrowed" value="<?= set_value('tubes_borrowed', $mitra != null ? $mitra->tubes_borrowed : old('tubes_borrowed')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('tubes_borrowed'); ?>
                                         </div>
@@ -39,7 +39,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="address">Alamat Mitra</label>
-                                        <input type="text" id="address" class="form-control <?= $validation->hasError('address') ? 'is-invalid' : ''; ?>" placeholder="Jl. xxxxxx" name="address" value="<?= set_value('address', old('address')); ?>">
+                                        <input type="text" id="address" class="form-control <?= $validation->hasError('address') ? 'is-invalid' : ''; ?>" placeholder="Jl. xxxxxx" name="address" value="<?= set_value('address', $mitra != null ? $mitra->address : old('address')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('address'); ?>
                                         </div>
@@ -48,7 +48,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" id="email" class="form-control <?= $validation->hasError('email') ? 'is-invalid' : ''; ?>" placeholder="user@gmail.com" name="email" value="<?= set_value('email', old('email')); ?>">
+                                        <input type="email" id="email" class="form-control <?= $validation->hasError('email') ? 'is-invalid' : ''; ?>" placeholder="user@gmail.com" name="email" value="<?= set_value('email', $mitra != null ? $mitra->email : old('email')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('email'); ?>
                                         </div>
