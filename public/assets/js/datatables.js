@@ -10453,7 +10453,7 @@
 			 * with a default select list of 10, 25, 50 and 100, and can be replaced
 			 * with a custom select box if required.
 			 */
-			"sLengthMenu": "_MENU_ _ENTRIES_ per page",
+			"sLengthMenu": " _MENU_ _ENTRIES_ per page",
 	
 	
 			/**
