@@ -53,6 +53,7 @@ $routes->group(
                 $routes->post('new', [AdminMitraController::class, 'store']);
                 $routes->post('approve', [AdminMitraController::class, 'approve']);
                 $routes->post('reject', [AdminMitraController::class, 'reject']);
+                $routes->post('revert', [AdminMitraController::class, 'revert']);
             });
         });
     }

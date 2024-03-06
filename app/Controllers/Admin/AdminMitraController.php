@@ -73,7 +73,7 @@ class AdminMitraController extends BaseController
         $mitraModel = new MitraModel();
         $mitraModel->save($mitra);
 
-        return redirect()->to(base_url('admin/mitra/list'))->with('success_message', 'Berhasil menambahkan data mitra');
+        return redirect()->to(base_url('admin/mitra/request'))->with('success_message', 'Berhasil menambahkan data mitra');
     }
 
     public function approve(){
@@ -96,6 +96,19 @@ class AdminMitraController extends BaseController
         $mitra = [
             'id' => $id_mitra,
             'verified' => 0
+        ];
+
+        $mitraModel->save($mitra);
+
+        echo json_encode($mitra);
+    }
+    public function revert(){
+        $id_mitra = $this->request->getPost('id_mitra');
+
+        $mitraModel = new MitraModel();
+        $mitra = [
+            'id' => $id_mitra,
+            'verified' => NULL
         ];
 
         $mitraModel->save($mitra);

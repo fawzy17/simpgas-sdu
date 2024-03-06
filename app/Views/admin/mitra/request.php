@@ -42,14 +42,15 @@
                                 <td class="text-left"><?= $mitra->name ?></td>
                                 <td class="text-left"><?= $mitra->tubes_borrowed ?></td>
                                 <td class="text-left"><?= $mitra->address ?></td>
-                                <td class="text-left">
+                                <td id="verified<?= $mitra->id ?>" class="text-left">
                                     <?php if ($mitra->verified == null) : ?>
                                         <button class="btn btn-success approve-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Approve</button>
-                                        <button class="btn btn-danger reject-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Reject</button>
+                                        <button class="btn btn-danger reject-btn" type="submit" data-id-mitra="<?= $mitra->id ?>" data-name-mitra="<?= $mitra->name ?>">Reject</button>
                                     <?php elseif ($mitra->verified == 0) : ?>
-                                        <span class="badge text-bg-danger">
-                                            <i class="bi bi-x"></i>
-                                        </span>
+                                        <a type="button" class="btn btn-outline-info revert-btn" data-id-mitra="<?= $mitra->id ?>" data-name-mitra="<?= $mitra->name ?>">
+                                            <i class="bi bi-arrow-counterclockwise"></i>
+                                            Revert
+                                        </a>
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -94,7 +95,7 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('.approve-btn').click(function(e) {
+        $(document).on('click', '.approve-btn', function(e) {
             var id_mitra = $(this).data('id-mitra');
             $.ajax({
                 url: '<?= base_url() ?>admin/mitra/approve',
@@ -104,18 +105,15 @@
                 },
                 success: function(response) {
                     response = JSON.parse(response);
-                    console.log("Approve clicked for id: " + response.id);
-                    console.log("Approve clicked for id: " + response.verified);
                     Swal.fire({
                         icon: 'success',
-                        text: 'Berhasil menyetujui permintaan menjadi mitra',
+                        title: 'Berhasil',
+                        text: 'Permintaan menjadi mitra disetujui',
                         showConfirmButton: false,
                         timer: 2000
                     })
 
-                    // Menghapus <tr> terkait
                     $('#mitra' + response.id).remove();
-
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error(textStatus, errorThrown);
@@ -124,8 +122,9 @@
 
         });
 
-        $('.reject-btn').click(function(e) {
+        $(document).on('click', '.reject-btn', function(e) {
             var id_mitra = $(this).data('id-mitra');
+            var name_mitra = $(this).data('name-mitra');
             $.ajax({
                 url: '<?= base_url() ?>admin/mitra/reject',
                 type: 'POST',
@@ -134,11 +133,64 @@
                 },
                 success: function(response) {
                     response = JSON.parse(response);
-                    console.log("Reject clicked for id: " + response.id);
-                    console.log("Reject clicked for id: " + response.verified);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Permintaan menjadi mitra ditolak',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    $('#verified' + response.id).empty();
+                    $('#verified' + response.id).html(
+                        `
+                            <a type="button" class="btn btn-outline-info revert-btn" data-id-mitra="${response.id}" data-name-mitra="${name_mitra}">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                                Revert
+                            </a>
+                        `
+                    );
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error(textStatus, errorThrown);
+                }
+            });
+        });
+
+        $(document).on('click', '.revert-btn', function(e) {
+            var id_mitra = $(this).data('id-mitra');
+            var name_mitra = $(this).data('name-mitra');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Yakin?',
+                text: 'Merubah status persetujuan ' + name_mitra,
+                showCancelButton: true, // Menampilkan tombol pembatalan
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Revert!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '<?= base_url() ?>admin/mitra/revert',
+                        type: 'POST',
+                        data: {
+                            "id_mitra": id_mitra
+                        },
+                        success: function(response) {
+                            response = JSON.parse(response);
+                            console.log('berhasil revert ' + response.id);
+                            $('#verified' + response.id).empty();
+                            $('#verified' + response.id).html(
+                                `
+                                    <button class="btn btn-success approve-btn" type="submit" data-id-mitra="${response.id}">Approve</button>
+                                    <button class="btn btn-danger reject-btn" type="submit" data-id-mitra="${response.id}" data-name-mitra="${name_mitra}">Reject</button>
+                                `
+                            );
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.error(textStatus, errorThrown);
+                        }
+                    });
                 }
             });
         });
