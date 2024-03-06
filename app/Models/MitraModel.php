@@ -12,7 +12,7 @@ class MitraModel extends Model
     protected $returnType       = 'App\Entities\MitraEntity';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'tubes_borrowed', 'address'];
+    protected $allowedFields    = ['name', 'tubes_borrowed', 'address', 'user_id', 'verified'];
 
     protected bool $allowEmptyInserts = false;
 
@@ -39,4 +39,12 @@ class MitraModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function get_mitra(){
+        return $this->db->table('mitras')
+        ->select('mitras.*, users.email, users.username')
+        ->join('users', 'users.id = mitras.user_id')
+        ->get()
+        ->getResult();
+    }
 }

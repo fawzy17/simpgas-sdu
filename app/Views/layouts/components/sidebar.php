@@ -3,7 +3,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a class="fs-5 fw-bold d-flex gap-2 align-items-center" href="<?= base_url()?>">
+                    <a class="fs-5 fw-bold d-flex gap-2 align-items-center" href="<?= base_url() ?>">
                         <!-- <div class="border border-danger p-1 rounded">
                             <img src="<?= base_url('assets/images/logo.png'); ?>" alt="logo" width="32px">
                         </div> -->
@@ -45,17 +45,47 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'mitra' ? 'active' : '' ?>">
+                    <li class="sidebar-item has-sub <?= $title == 'Mitra' ? 'active' : '' ?>">
                         <a href="<?= base_url('/admin/mitra'); ?>" class='sidebar-link'>
                             <i class="bi bi-people-fill"></i>
                             <span>Mitra</span>
                         </a>
+                        <ul class="submenu active">
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'list' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/mitra/list'); ?>" class="submenu-link">List</a>
+                            </li>
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'request' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/mitra/request'); ?>" class="submenu-link">Request</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'tabung' ? 'active' : '' ?>">
+                    <li class="sidebar-item has-sub <?= $title == 'Tabung' ? 'active' : '' ?>">
                         <a href="<?= base_url('/admin/tabung'); ?>" class='sidebar-link'>
                             <i class="bi bi-database"></i>
                             <span>Tabung</span>
                         </a>
+                        <ul class="submenu active">
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'stok' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/tabung/stok'); ?>" class="submenu-link">Stok</a>
+                            </li>
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'request' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/tabung/request'); ?>" class="submenu-link">Request</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item has-sub <?= $title == 'Pengaturan' ? 'active' : '' ?>">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-gear"></i>
+                            <span>Pengaturan</span>
+                        </a>
+                        <ul class="submenu active">
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'identitas' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/pengaturan/identitas'); ?>" class="submenu-link">Identitas</a>
+                            </li>
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'akun' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/pengaturan/akun'); ?>" class="submenu-link">Akun</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             <?php else : ?>

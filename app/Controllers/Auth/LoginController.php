@@ -79,7 +79,6 @@ class LoginController extends BaseController
             'id' => $user->id,
             'username' => $user->username,
             'role_id' => $user->role_id,
-            'verified' => $user->verified,
             'avatar' => $user->avatar,
             'logged_in' => true,
         ];
@@ -109,7 +108,6 @@ class LoginController extends BaseController
                 $entity->username = $userData['givenName'];
                 $entity->avatar = $userData['picture'];
                 $entity->role_id = 3;
-                $entity->verified = 0;
                 $entity->image = $userData['picture'];
 
                 $userModel = new UserModel();
@@ -119,7 +117,6 @@ class LoginController extends BaseController
                         'id' => $user->id,
                         'username' => $user->username,
                         'role_id' => $user->role_id,
-                        'verified' => $user->verified,
                         'avatar' => $user->avatar,
                         'logged_in' => true,
                     ];

@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
                 'password' => password_hash(12345678, PASSWORD_DEFAULT),
                 'email' => 'superadmin@gmail.com',
                 'role_id' => 1,
-                'verified' => 1
             ],
             [
                 'id' => 2,
@@ -23,7 +22,6 @@ class UserSeeder extends Seeder
                 'password' => password_hash(12345678, PASSWORD_DEFAULT),
                 'email' => 'admin@gmail.com',
                 'role_id' => 2,
-                'verified' => 1
             ],
             [
                 'id' => 3,
@@ -31,7 +29,6 @@ class UserSeeder extends Seeder
                 'password' => password_hash(12345678, PASSWORD_DEFAULT),
                 'email' => 'user@gmail.com',
                 'role_id' => 3,
-                'verified' => 1
             ],
 
         ];

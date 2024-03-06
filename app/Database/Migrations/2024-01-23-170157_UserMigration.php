@@ -38,15 +38,10 @@ class UserMigration extends Migration
                 'constraint' => 5,
                 'unsigned' => true
             ],
-            'verified' => [
-                'type' => 'TINYINT',
-                'constraint' => 1,
-                'default' => 0
-            ],
             'avatar' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
-                'default' => 'img/person.png'
+                'default' => NULL
             ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT CURRENT_TIMESTAMP',

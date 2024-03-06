@@ -21,7 +21,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="name">Nama</label>
-                                        <input type="text" id="name" class="form-control <?= $validation->hasError('name') ? 'is-invalid' : ''; ?>" placeholder="Nama" name="name">
+                                        <input type="text" id="name" class="form-control <?= $validation->hasError('name') ? 'is-invalid' : ''; ?>" placeholder="PT. xxxx" name="name" value="<?= set_value('name', old('name')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('name'); ?>
                                         </div>
@@ -30,7 +30,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="tubes_borrowed">Tabung yang dipinjam</label>
-                                        <input type="number" id="tubes_borrowed" class="form-control <?= $validation->hasError('tubes_borrowed') ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="tubes_borrowed">
+                                        <input type="number" id="tubes_borrowed" class="form-control <?= $validation->hasError('tubes_borrowed') ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="tubes_borrowed" value="<?= set_value('tubes_borrowed', old('tubes_borrowed')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('tubes_borrowed'); ?>
                                         </div>
@@ -39,9 +39,18 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="address">Alamat Mitra</label>
-                                        <input type="text" id="address" class="form-control <?= $validation->hasError('address') ? 'is-invalid' : ''; ?>" placeholder="Jl. xxxxxx" name="address">
+                                        <input type="text" id="address" class="form-control <?= $validation->hasError('address') ? 'is-invalid' : ''; ?>" placeholder="Jl. xxxxxx" name="address" value="<?= set_value('address', old('address')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('address'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" class="form-control <?= $validation->hasError('email') ? 'is-invalid' : ''; ?>" placeholder="user@gmail.com" name="email" value="<?= set_value('email', old('email')); ?>">
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('email'); ?>
                                         </div>
                                     </div>
                                 </div>

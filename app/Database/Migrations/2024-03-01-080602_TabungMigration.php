@@ -36,7 +36,7 @@ class TabungMigration extends Migration
             ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT CURRENT_TIMESTAMP',
-            'deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP',
+            'deleted_at DATETIME DEFAULT NULL',
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('tabungs');

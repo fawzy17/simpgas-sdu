@@ -28,11 +28,22 @@ class MitraMigration extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
+            'user_id' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true,
+            ],
+            'verified' => [
+                'type' => 'TINYINT',
+                'constraint' => 1,
+                'default' => NULL
+            ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT CURRENT_TIMESTAMP',
-            'deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP',
+            'deleted_at DATETIME DEFAULT NULL',
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
         $this->forge->createTable('mitras');
     }
 

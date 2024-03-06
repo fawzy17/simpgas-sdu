@@ -3,7 +3,7 @@
 
 <?= $this->endSection(); ?>
 <?= $this->section('page_title'); ?>
-<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Mitra', 'description' => 'Kelola data mitra anda disini']); ?>
+<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Tabung', 'description' => 'Kelola data tabung anda disini']); ?>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
@@ -14,30 +14,46 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="card-title mb-0">
-                Tabel mitra
+                Tabel Request Peminjaman Tabung
             </h5>
-            <a href="<?= base_url('/admin/mitra/new'); ?>" class="btn btn-sm icon icon-left btn-danger">
+            <a href="<?= base_url('/admin/tabung/new'); ?>" class="btn btn-sm icon icon-left btn-danger">
                 <i class="bi bi-person-plus"></i>
                 Tambah
             </a>
         </div>
         <div class="card-body">
             <table id="table1" class="table table-stripped" style="width:100%">
-                <thead >
+                <thead>
                     <tr>
-                        <th >No.</th>
+                        <th>No.</th>
                         <th>Nama</th>
-                        <th>Tabung yang dipinjam</th>
-                        <th>Alamat mitra</th>
+                        <th>Kategori</th>
+                        <th>Ukuran(L)</th>
+                        <th>Berat(KG)</th>
+                        <th>Stok</th>
+                        <th>Dipinjam</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $no = 1; foreach ($mitras as $mitra) : ?>
+                    <?php $no = 1;
+                    foreach ($tabungs as $tabung) : ?>
                         <tr>
                             <td class="text-left"><?= $no++ ?></td>
-                            <td class="text-left"><?= $mitra->name ?></td>
-                            <td class="text-left"><?= $mitra->tubes_borrowed ?></td>
-                            <td class="text-left"><?= $mitra->address ?></td>
+                            <td class="text-left"><?= $tabung->name ?></td>
+                            <td class="text-left">
+                                <?php if ($tabung->category == 1) {
+                                    echo "Gass";
+                                } elseif ($tabung->category == 2) {
+                                    echo "Liquid";
+                                } elseif ($tabung->category == 3) {
+                                    echo "Solid";
+                                }
+                                ?>
+                            </td>
+                            <td class="text-left"><?= $tabung->size ?></td>
+                            <td class="text-left"><?= $tabung->weight ?></td>
+                            <td class="text-left">200</td>
+                            <td class="text-left">50</td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -54,8 +70,10 @@
 <script>
     let jquery_datatable = $("#table1").DataTable({
         "responsive": true,
-        "columnDefs": [
-            { "type": "string", "targets": [0, 2] } // Assuming column indexes 3 and 4 contain numerical values
+        "columnDefs": [{
+                "type": "string",
+                "targets": [0, 3, 4, 5, 6]
+            } // Assuming column indexes 3 and 4 contain numerical values
         ],
         "scrollX": true,
         "autoWidth": true,

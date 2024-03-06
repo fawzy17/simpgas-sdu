@@ -17,7 +17,7 @@ class UserValidation
         return true;
     }
 
-    public function collaborator_valid_email($value, ?string &$error = "Email is not contain in database"): bool
+    public function user_valid_email($value, ?string &$error = "Email is not contain in database"): bool
     {
         $userModel = new UserModel();
         $user = $userModel->where('email', $value)->first();

@@ -67,7 +67,6 @@ class RegisterController extends BaseController
         $user->email = $this->request->getPost('email');
         $user->username = $this->request->getPost('username');
         $user->role_id = 3;
-        $user->verified = 0;
         $password = $this->request->getVar('password');
         $user->password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -77,7 +76,6 @@ class RegisterController extends BaseController
             'id' => $user->id,
             'username' => $user->username,
             'role_id' => $user->role_id,
-            'verified' => $user->verified,
             'logged_in' => true,
         ];
         $sendEmailController = new Home();
@@ -105,7 +103,6 @@ class RegisterController extends BaseController
             $entity->email = $userData['email'];
             $entity->username = $userData['givenName'];
             $entity->role_id = 3;
-            $entity->verified = 0;
             $entity->avatar = $userData['picture'];
 
             $userModel = new UserModel();
@@ -115,7 +112,6 @@ class RegisterController extends BaseController
                     'id' => $user->id,
                     'username' => $user->username,
                     'role_id' => $user->role_id,
-                    'verified' => $user->verified,
                     'avatar' => $user->avatar,
                     'logged_in' => true,
                 ];

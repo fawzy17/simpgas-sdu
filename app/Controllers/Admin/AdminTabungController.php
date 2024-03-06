@@ -8,7 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class AdminTabungController extends BaseController
 {
-    public function index()
+    public function stok()
     {
         $tabungModel = new TabungModel();
         $tabung = $tabungModel->findAll();
@@ -17,7 +17,18 @@ class AdminTabungController extends BaseController
             'title' => 'Tabung'
         ];
 
-        return view('admin/tabung/index', $data);
+        return view('admin/tabung/stok', $data);
+    }
+    public function request()
+    {
+        $tabungModel = new TabungModel();
+        $tabung = $tabungModel->findAll();
+        $data = [
+            'tabungs' => $tabung,
+            'title' => 'Tabung'
+        ];
+
+        return view('admin/tabung/request', $data);
     }
 
     public function new()
@@ -57,6 +68,6 @@ class AdminTabungController extends BaseController
         $tabungModel = new TabungModel();
         $tabungModel->save($tabung);
 
-        return redirect()->to(base_url('admin/tabung'))->with('success_message', 'Berhasil menambahkan data tabung');
+        return redirect()->to(base_url('admin/tabung/list'))->with('success_message', 'Berhasil menambahkan data tabung');
     }
 }

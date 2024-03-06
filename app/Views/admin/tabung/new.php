@@ -21,7 +21,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="name">Nama</label>
-                                        <input type="text" id="name" class="form-control <?= $validation->hasError('name') ? 'is-invalid' : ''; ?>" placeholder="Nama" name="name">
+                                        <input type="text" id="name" class="form-control <?= $validation->hasError('name') ? 'is-invalid' : ''; ?>" placeholder="Nama" name="name" value="<?= set_value('name', old('name')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('name'); ?>
                                         </div>
@@ -30,7 +30,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="category">Kategori</label>
-                                        <select id="category" name="category" class="choices form-select <?= $validation->hasError('category') ? 'is-invalid' : ''; ?>">
+                                        <select id="category" name="category" class="choices form-select <?= $validation->hasError('category') ? 'is-invalid' : ''; ?>" value="<?= set_value('category', old('category')); ?>">
                                             <option value="1">Gass</option>
                                             <option value="2">Liquid</option>
                                             <option value="3">Solid</option>
@@ -43,7 +43,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="size">Ukuran (L)</label>
-                                        <input type="number" id="size" class="form-control <?= $validation->hasError('size') ? 'is-invalid' : ''; ?>" placeholder="Dalam Litre" name="size">
+                                        <input type="number" id="size" class="form-control <?= $validation->hasError('size') ? 'is-invalid' : ''; ?>" placeholder="Dalam Litre" name="size" value="<?= set_value('size', old('size')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('size'); ?>
                                         </div>
@@ -52,7 +52,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="weight">Berat (KG)</label>
-                                        <input type="number" id="weight" class="form-control <?= $validation->hasError('weight') ? 'is-invalid' : ''; ?>" name="weight" placeholder="Dalam Kilogram">
+                                        <input type="number" id="weight" class="form-control <?= $validation->hasError('weight') ? 'is-invalid' : ''; ?>" name="weight" placeholder="Dalam Kilogram" value="<?= set_value('weight', old('weight')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('weight'); ?>
                                         </div>
