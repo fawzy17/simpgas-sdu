@@ -19,17 +19,6 @@ class AdminTabungController extends BaseController
 
         return view('admin/tabung/stok', $data);
     }
-    public function request()
-    {
-        $tabungModel = new TabungModel();
-        $tabung = $tabungModel->findAll();
-        $data = [
-            'tabungs' => $tabung,
-            'title' => 'Tabung'
-        ];
-
-        return view('admin/tabung/request', $data);
-    }
 
     public function new()
     {

@@ -97,27 +97,5 @@
         }
     });
 </script>
-<script>
-    $(() => {
-        <?php if (session()->has('success_message')) : ?>
-            Swal.fire({
-                icon: 'success',
-                text: '<?= session()->getFlashdata('success_message') ?>',
-                showConfirmButton: false,
-                timer: 2000
-            })
-        <?php endif; ?>
-    })
-    $(() => {
-        <?php if (session()->has('error_message')) : ?>
-            Swal.fire({
-                icon: 'error',
-                text: '<?= session()->getFlashdata('error_message') ?>',
-                showConfirmButton: false,
-                timer: 2000
-            })
-        <?php endif; ?>
-    })
-</script>
 
 <?= $this->endSection(); ?>

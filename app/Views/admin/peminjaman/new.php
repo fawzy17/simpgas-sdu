@@ -3,7 +3,7 @@
 
 <?= $this->endSection(); ?>
 <?= $this->section('page_title'); ?>
-<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Mitra', 'description' => 'Isi form dibawah untuk menambahkan data mitra']); ?>
+<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Pinjaman', 'description' => 'Isi form dibawah untuk menambahkan data mitra']); ?>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>

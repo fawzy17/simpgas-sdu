@@ -51,25 +51,31 @@
                             <span>Mitra</span>
                         </a>
                         <ul class="submenu active">
-                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'list' ? 'active' : '' ?>">
-                                <a href="<?= base_url('/admin/mitra/list'); ?>" class="submenu-link">List</a>
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'list-mitra' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/mitra/list-mitra'); ?>" class="submenu-link">List</a>
                             </li>
-                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'request' ? 'active' : '' ?>">
-                                <a href="<?= base_url('/admin/mitra/request'); ?>" class="submenu-link">Request</a>
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'request-mitra' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/mitra/request-mitra'); ?>" class="submenu-link">Request</a>
                             </li>
                         </ul>
                     </li>
-                    <li class="sidebar-item has-sub <?= $title == 'Tabung' ? 'active' : '' ?>">
+                    <li class="sidebar-item  <?= service('uri')->getSegment(2) == 'tabung' ? 'active' : '' ?>">
                         <a href="<?= base_url('/admin/tabung'); ?>" class='sidebar-link'>
                             <i class="bi bi-database"></i>
                             <span>Tabung</span>
                         </a>
+                    </li>
+                    <li class="sidebar-item has-sub <?= $title == 'Peminjaman' ? 'active' : '' ?>">
+                        <a href="<?= base_url('/admin/peminjaman'); ?>" class='sidebar-link'>
+                            <i class="bi bi-people-fill"></i>
+                            <span>Peminjaman</span>
+                        </a>
                         <ul class="submenu active">
-                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'stok' ? 'active' : '' ?>">
-                                <a href="<?= base_url('/admin/tabung/stok'); ?>" class="submenu-link">Stok</a>
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'list-peminjaman' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/peminjaman/list-peminjaman'); ?>" class="submenu-link">List</a>
                             </li>
-                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'request' ? 'active' : '' ?>">
-                                <a href="<?= base_url('/admin/tabung/request'); ?>" class="submenu-link">Request</a>
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'request-peminjaman' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/peminjaman/request-peminjaman'); ?>" class="submenu-link">Request</a>
                             </li>
                         </ul>
                     </li>

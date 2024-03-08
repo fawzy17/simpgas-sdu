@@ -10,7 +10,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class AdminMitraController extends BaseController
 {
-    public function list()
+    public function list_mitra()
     {
         $mitraModel = new MitraModel();
         $mitra = $mitraModel->get_mitra();
@@ -21,7 +21,7 @@ class AdminMitraController extends BaseController
 
         return view('admin/mitra/list', $data);
     }
-    public function request()
+    public function request_mitra()
     {
         $mitraModel = new MitraModel();
         $mitra = $mitraModel->findAll();
@@ -73,7 +73,7 @@ class AdminMitraController extends BaseController
         $mitraModel = new MitraModel();
         $mitraModel->save($mitra);
 
-        return redirect()->to(base_url('admin/mitra/request'))->with('success_message', 'Berhasil menambahkan data mitra');
+        return redirect()->to(base_url('admin/mitra/request-mitra'))->with('success_message', 'Berhasil menambahkan data mitra');
     }
 
     public function approve(){

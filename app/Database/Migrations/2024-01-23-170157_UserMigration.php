@@ -44,7 +44,7 @@ class UserMigration extends Migration
                 'default' => NULL
             ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
-            'updated_at DATETIME DEFAULT CURRENT_TIMESTAMP',
+            'updated_at DATETIME DEFAULT NULL',
             'deleted_at DATETIME DEFAULT NULL',
         ]);
 

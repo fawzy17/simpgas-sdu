@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class TabungMigration extends Migration
+class PeminjamanMigration extends Migration
 {
     public function up()
     {
@@ -12,26 +12,25 @@ class TabungMigration extends Migration
             'id' => [
                 'type' => 'INT',
                 'constraint' => 5,
-                'unsigned' => true,
-                'auto_increment' => true
+                'auto_increament' => true,
             ],
-            'name' => [
+            'loan_code' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255,
+                'constraint' => 255
             ],
-            'category' => [
+            'mitra_id' => [
                 'type' => 'INT',
                 'constraint' => 5,
                 'unsigned' => true
             ],
-            'size' => [
+            'tabung_id' => [
                 'type' => 'INT',
-                'constraint' => 8,
-                'default' => 0
+                'constraint' => 5,
+                'unsigned' => true,
             ],
-            'weight' => [
+            'amount' => [
                 'type' => 'INT',
-                'constraint' => 8,
+                'constraint' => 5,
                 'default' => 0
             ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
@@ -39,11 +38,13 @@ class TabungMigration extends Migration
             'deleted_at DATETIME DEFAULT NULL',
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('tabungs');
+        $this->forge->addForeignKey('mitra_id', 'mitras', 'id', '', 'CASCADE');
+        $this->forge->addForeignKey('tabung_id', 'tabungs', 'id', '', 'CASCADE');
+        $this->forge->createTable('peminjamans');
     }
 
     public function down()
     {
-        $this->forge->dropTable('tabungs');
+        $this->forge->dropTable('peminjamans');
     }
 }

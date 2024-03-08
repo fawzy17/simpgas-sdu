@@ -3,7 +3,7 @@
 
 <?= $this->endSection(); ?>
 <?= $this->section('page_title'); ?>
-<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Mitra', 'description' => 'Kelola data permintaan menjadi mitra dari perusahaan lain disini']); ?>
+<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Pinjaman', 'description' => 'Kelola data permintaan menjadi mitra dari perusahaan lain disini']); ?>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>
@@ -211,5 +211,6 @@
         });
     });
 </script>
+
 
 <?= $this->endSection(); ?>
