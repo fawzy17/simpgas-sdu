@@ -59,7 +59,54 @@ class AdminMitraController extends BaseController
         }
 
         $mitra = new \App\Entities\MitraEntity();
-        
+
+        $validateData = $this->validator->getValidated();
+
+        $userModel = new UserModel();
+        $user = $userModel->where('email', $validateData['email'])->first();
+
+        $mitra->name = $validateData['name'];
+        $mitra->tubes_borrowe = $validateData['tubes_borrowed'];
+        $mitra->address = $validateData['address'];
+        $mitra->user_id = $user->id;
+
+        $mitraModel = new MitraModel();
+        $mitraModel->save($mitra);
+
+        return redirect()->to(base_url('admin/mitra/request'))->with('success_message', 'Berhasil menambahkan data mitra');
+    }
+    public function edit(int $id)
+    {
+        helper(['form']);
+
+        $mitraModel = new MitraModel();
+        $mitra = $mitraModel->get_mitra_by_id($id);
+
+        $data = [
+            'title' => 'Tambah Mitra',
+            'mitra' => $mitra[0],
+            'validation' => \Config\Services::validation(),
+        ];
+
+        return view('admin/mitra/edit', $data);
+    }
+    public function update(int $id)
+    {
+        helper(['form']);
+
+        if (!$this->validate('mitra')) {
+            $mitraModel = new MitraModel();
+            $mitra = $mitraModel->get_mitra_by_id($id);
+            $data = [
+                'title' => 'Tambah Mitra',
+                'mitra' => $mitra[0],
+                'validation' => \Config\Services::validation(),
+            ];
+            return view('admin/mitra/edit', $data);
+        }
+
+        $mitra = new \App\Entities\MitraEntity();
+
         $validateData = $this->validator->getValidated();
 
         $userModel = new UserModel();
@@ -76,7 +123,8 @@ class AdminMitraController extends BaseController
         return redirect()->to(base_url('admin/mitra/request-mitra'))->with('success_message', 'Berhasil menambahkan data mitra');
     }
 
-    public function approve(){
+    public function approve()
+    {
         $id_mitra = $this->request->getPost('id_mitra');
 
         $mitraModel = new MitraModel();
@@ -89,7 +137,8 @@ class AdminMitraController extends BaseController
 
         echo json_encode($mitra);
     }
-    public function reject(){
+    public function reject()
+    {
         $id_mitra = $this->request->getPost('id_mitra');
 
         $mitraModel = new MitraModel();
@@ -102,7 +151,8 @@ class AdminMitraController extends BaseController
 
         echo json_encode($mitra);
     }
-    public function revert(){
+    public function revert()
+    {
         $id_mitra = $this->request->getPost('id_mitra');
 
         $mitraModel = new MitraModel();

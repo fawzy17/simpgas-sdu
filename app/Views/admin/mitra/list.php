@@ -34,15 +34,15 @@
                         if ($mitra->verified == 1) :
                             $text =  $mitra->address;
                     ?>
-                            <tr>
+                            <tr id="mitra<?= $mitra->id ?>" >
                                 <td class="text-left"><?= $no++ ?></td>
                                 <td class="text-left"><?= $mitra->name ?></td>
                                 <td class="text-left"><?= $mitra->email ?></td>
                                 <td class="text-left"><?= $mitra->tubes_borrowed ?></td>
                                 <td class="text-left address-detail" data-address-mitra="<?= $mitra->address ?>"><?= strlen($text) > 35 ? substr($text, 0, 35) . '...' : $text; ?></td>
                                 <td class="text-left">
-                                    <button class="btn btn-success edit-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Edit</button>
-                                    <button class="btn btn-danger delete-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Delete</button>
+                                    <a href="<?= base_url('/admin/mitra/edit/'. $mitra->id); ?>" class="btn btn-success edit-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Edit</a>
+                                    <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="<?= $mitra->id ?>" data-name-mitra="<?= $mitra->name ?>">Delete</button>
                                 </td>
                             </tr>
                     <?php
@@ -95,6 +95,44 @@
             $(this).text(truncatedDeskripsi);
             $(this).data('truncated', false);
         }
+    });
+
+    $(document).on('click', '.delete-mitra-btn', function(e) {
+        var id_mitra = $(this).data('id-mitra');
+        var name_mitra = $(this).data('name-mitra');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Yakin?',
+            text: 'Menghapus ' + name_mitra + ' dari daftar mitra',
+            showCancelButton: true, // Menampilkan tombol pembatalan
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?= base_url() ?>admin/mitra/reject',
+                    type: 'POST',
+                    data: {
+                        "id_mitra": id_mitra
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        console.log('berhasil menghapus ' + name_mitra);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: name_mitra + ' telah dihapus dari daftar mitra, data dipindahkan ke tabel request',
+                        });
+                        $('#mitra' + response.id).remove();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error(textStatus, errorThrown);
+                    }
+                });
+            }
+        });
     });
 </script>
 
