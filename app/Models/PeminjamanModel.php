@@ -39,4 +39,18 @@ class PeminjamanModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function get_peminjaman()
+    {
+        return $this->db->table('peminjamans')
+            ->join('mitras', 'mitras.id = peminjamans.mitra_id')
+            ->join('tabungs', 'tabungs.id = peminjamans.tabung_id')
+            ->select('peminjamans.*, 
+            mitras.name as mitra_name,
+            tabungs.name as tabung_name,
+            tabungs.category as tabung_category,
+            tabungs.size as tabung_size,
+            tabungs.weight as tabung_weight,
+        ')->get()->getResult();
+    }
 }

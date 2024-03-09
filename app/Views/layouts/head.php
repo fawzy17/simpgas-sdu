@@ -10,6 +10,7 @@
     
     <!-- datatable -->
     <link rel="stylesheet" href="<?= base_url('assets/css/dataTables.dataTables.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/fixedColumns.dataTables.css'); ?>">
 
     <!-- sweetalert -->
     <link rel="stylesheet" href="<?= base_url('assets/css/sweetalert2.min.css'); ?>">

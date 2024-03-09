@@ -11,7 +11,7 @@ class AdminPeminjamanContoller extends BaseController
     public function list_peminjaman()
     {
         $peminjamanModel = new PeminjamanModel();
-        $peminjaman = $peminjamanModel->find();
+        $peminjaman = $peminjamanModel->get_peminjaman();
         $data = [
             'peminjamans' => $peminjaman,
             'title' => 'Peminjaman'

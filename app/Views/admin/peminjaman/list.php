@@ -22,19 +22,31 @@
                     <tr>
                         <th>No.</th>
                         <th>Kode Peminjaman</th>
-                        <th>ID Mitra</th>
-                        <th>ID Tabung</th>
+                        <th>Kode Peminjaman</th>
+                        <th>Kode Peminjaman</th>
+                        <th>Mitra</th>
+                        <th>Tabung</th>
+                        <th>Ukuran</th>
+                        <th>Dipinjam</th>
+                        <th>Dipinjam</th>
+                        <th>Dipinjam</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     $no = 1;
                     foreach ($peminjamans as $peminjaman) : ?>
                         <tr>
                             <td><?= $no++ ?></td>
                             <td><?= $peminjaman->loan_code ?></td>
-                            <td><?= $peminjaman->mitra_id ?></td>
-                            <td><?= $peminjaman->tabung_id ?></td>
+                            <td><?= $peminjaman->loan_code ?></td>
+                            <td><?= $peminjaman->loan_code ?></td>
+                            <td><?= $peminjaman->mitra_name ?></td>
+                            <td><?= $peminjaman->tabung_name ?></td>
+                            <td><?= $peminjaman->tabung_size ?></td>
+                            <td><?= $peminjaman->amount ?></td>
+                            <td><?= $peminjaman->amount ?></td>
+                            <td><?= $peminjaman->amount ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -50,10 +62,14 @@
 <?= $this->section('scripts'); ?>
 <script>
     let jquery_datatable = $("#table1").DataTable({
+        "fixedColumns": {
+            start: 1,
+            end: 0
+        },
         "responsive": true,
         "columnDefs": [{
                 "type": "string",
-                "targets": [0]
+                "targets": [0, 4, 5]
             } // Assuming column indexes 3 and 4 contain numerical values
         ],
         "scrollX": true,

@@ -9,6 +9,8 @@
 
 <!-- Data Tables -->
 <script src="<?= base_url('assets/js/dataTables.js'); ?>"></script>
+<script src="<?= base_url('assets/js/dataTables.fixedColumns.js'); ?>"></script>
+<script src="<?= base_url('assets/js/fixedColumns.dataTables.js'); ?>"></script>
 
 <!-- index -->
 <script src="<?= base_url('assets/js/index.js'); ?>"></script>

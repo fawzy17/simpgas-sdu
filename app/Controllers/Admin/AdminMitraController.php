@@ -112,6 +112,7 @@ class AdminMitraController extends BaseController
         $userModel = new UserModel();
         $user = $userModel->where('email', $validateData['email'])->first();
 
+        $mitra->id = $id;
         $mitra->name = $validateData['name'];
         $mitra->tubes_borrowe = $validateData['tubes_borrowed'];
         $mitra->address = $validateData['address'];
@@ -120,7 +121,7 @@ class AdminMitraController extends BaseController
         $mitraModel = new MitraModel();
         $mitraModel->save($mitra);
 
-        return redirect()->to(base_url('admin/mitra/request-mitra'))->with('success_message', 'Berhasil menambahkan data mitra');
+        return redirect()->to(base_url('admin/mitra/request-mitra'))->with('success_message', 'Berhasil mengubah data mitra');
     }
 
     public function approve()
