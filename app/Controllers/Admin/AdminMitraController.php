@@ -73,7 +73,7 @@ class AdminMitraController extends BaseController
         $mitraModel = new MitraModel();
         $mitraModel->save($mitra);
 
-        return redirect()->to(base_url('admin/mitra/request'))->with('success_message', 'Berhasil menambahkan data mitra');
+        return redirect()->to(base_url('admin/mitra/request-mitra'))->with('success_message', 'Berhasil menambahkan data mitra');
     }
     public function edit(int $id)
     {

@@ -163,7 +163,7 @@
         responsive: true,
         scrollX: true,
         fixedColumns: {
-            leftColumns: 3
+            start: 2
         }
     })
 

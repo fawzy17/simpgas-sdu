@@ -40,20 +40,22 @@ class MitraModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function get_mitra(){
+    public function get_mitra()
+    {
         return $this->db->table('mitras')
-        ->select('mitras.*, users.email, users.username')
-        ->join('users', 'users.id = mitras.user_id')
-        ->get()
-        ->getResult();
+            ->select('mitras.*, users.email, users.username')
+            ->join('users', 'users.id = mitras.user_id')
+            ->get()
+            ->getResult();
     }
 
-    public function get_mitra_by_id(int $id){
+    public function get_mitra_by_id(int $id)
+    {
         return $this->db->table('mitras')
-        ->select('mitras.*, users.email, users.username')
-        ->join('users', 'users.id = mitras.user_id')
-        ->where(['mitras.id' => $id])
-        ->get()
-        ->getResult();
+            ->select('mitras.*, users.email, users.username')
+            ->join('users', 'users.id = mitras.user_id')
+            ->where(['mitras.id' => $id])
+            ->get()
+            ->getResult();
     }
 }

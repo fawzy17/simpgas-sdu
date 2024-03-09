@@ -39,4 +39,14 @@ class TabungModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function get_tabung()
+    {
+        return $this->db->table('tabungs')
+            ->select('tabungs.*, COALESCE(SUM(peminjamans.amount), 0) AS total_borrowed')
+            ->join('peminjamans', 'tabungs.id = peminjamans.tabung_id', 'LEFT')
+            ->groupBy('tabungs.id')
+            ->get()
+            ->getResult();
+    }
 }

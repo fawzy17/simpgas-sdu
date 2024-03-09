@@ -53,4 +53,15 @@ class PeminjamanModel extends Model
             tabungs.weight as tabung_weight,
         ')->get()->getResult();
     }
+
+    public function get_all_peminjaman_by_mitra()
+    {
+        return $this->db->table('peminjamans')
+            ->select('peminjamans.mitra_id, peminjamans.tabung_id, mitras.name as mitra_name, tabungs.name as tabung_name, SUM(peminjamans.amount) as total_amount')
+            ->join('mitras', 'mitras.id = peminjamans.mitra_id', 'LEFT')
+            ->join('tabungs', 'tabungs.id = peminjamans.tabung_id', 'LEFT')
+            ->groupBy('peminjamans.mitra_id, peminjamans.tabung_id')
+            ->get()
+            ->getResult();
+    }
 }

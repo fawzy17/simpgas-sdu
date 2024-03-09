@@ -21,32 +21,31 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Kode Peminjaman</th>
-                        <th>Kode Peminjaman</th>
-                        <th>Kode Peminjaman</th>
                         <th>Mitra</th>
-                        <th>Tabung</th>
-                        <th>Ukuran</th>
-                        <th>Dipinjam</th>
-                        <th>Dipinjam</th>
-                        <th>Dipinjam</th>
+                        <?php foreach ($tabungs as $tabung) : ?>
+                            <th><?= $tabung->name ?></th>
+                        <?php endforeach; ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     $no = 1;
-                    foreach ($peminjamans as $peminjaman) : ?>
+                    foreach ($mitras as $mitra) :
+                    ?>
                         <tr>
                             <td><?= $no++ ?></td>
-                            <td><?= $peminjaman->loan_code ?></td>
-                            <td><?= $peminjaman->loan_code ?></td>
-                            <td><?= $peminjaman->loan_code ?></td>
-                            <td><?= $peminjaman->mitra_name ?></td>
-                            <td><?= $peminjaman->tabung_name ?></td>
-                            <td><?= $peminjaman->tabung_size ?></td>
-                            <td><?= $peminjaman->amount ?></td>
-                            <td><?= $peminjaman->amount ?></td>
-                            <td><?= $peminjaman->amount ?></td>
+                            <td><?= $mitra->name ?></td>
+                            <?php
+                            foreach ($tabungs as $tabung) :
+                                $total_amount = 0;
+                                foreach ($peminjamans as $peminjaman) :
+                                    if ($peminjaman->tabung_id == $tabung->id && $peminjaman->mitra_id == $mitra->id) :
+                                        $total_amount += $peminjaman->total_amount;
+                                    endif;
+                                endforeach;
+                                echo '<td>' . $total_amount . '</td>';
+                            endforeach;
+                            ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -68,10 +67,9 @@
         },
         "responsive": true,
         "columnDefs": [{
-                "type": "string",
-                "targets": [0, 4, 5]
-            } // Assuming column indexes 3 and 4 contain numerical values
-        ],
+            "type": "string",
+            "targets": "_all"
+        }],
         "scrollX": true,
         "autoWidth": true,
         "scrollCollapse": true,

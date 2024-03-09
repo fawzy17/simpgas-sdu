@@ -53,7 +53,7 @@
                             <td class="text-left"><?= $tabung->size ?></td>
                             <td class="text-left"><?= $tabung->weight ?></td>
                             <td class="text-left">200</td>
-                            <td class="text-left">50</td>
+                            <td class="text-left"><?= $tabung->total_borrowed ?> </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

@@ -149,6 +149,7 @@
                                 <i class="bi bi-arrow-counterclockwise"></i>
                                 Revert
                             </a>
+                            <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="${response.id}">Delete</button>
                         `
                     );
                 },

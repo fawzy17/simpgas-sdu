@@ -11,7 +11,7 @@ class AdminTabungController extends BaseController
     public function stok()
     {
         $tabungModel = new TabungModel();
-        $tabung = $tabungModel->findAll();
+        $tabung = $tabungModel->get_tabung();
         $data = [
             'tabungs' => $tabung,
             'title' => 'Tabung'
@@ -57,6 +57,6 @@ class AdminTabungController extends BaseController
         $tabungModel = new TabungModel();
         $tabungModel->save($tabung);
 
-        return redirect()->to(base_url('admin/tabung/list'))->with('success_message', 'Berhasil menambahkan data tabung');
+        return redirect()->to(base_url('admin/tabung/stok'))->with('success_message', 'Berhasil menambahkan data tabung');
     }
 }
