@@ -52,7 +52,7 @@
                                             <i class="bi bi-arrow-counterclockwise"></i>
                                             Revert
                                         </a>
-                                        <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Delete</button>
+                                        <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="<?= $mitra->id ?>" data-name-mitra="<?= $mitra->name ?>">Delete</button>
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -149,7 +149,7 @@
                                 <i class="bi bi-arrow-counterclockwise"></i>
                                 Revert
                             </a>
-                            <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="${response.id}">Delete</button>
+                            <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="${response.id}" data-name-mitra="${name_mitra}">Delete</button>
                         `
                     );
                 },
@@ -228,20 +228,18 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?= base_url() ?>admin/mitra/delete-mitra',
-                    type: 'POST',
-                    data: {
-                        "id_mitra": id_mitra
-                    },
+                    url: '<?= base_url() ?>admin/mitra/delete/' + id_mitra,
+                    type: 'DELETE',
                     success: function(response) {
                         response = JSON.parse(response);
-                        console.log('berhasil menghapus ' + name_mitra);
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: name_mitra + ' telah dihapus permanen dari database',
+                            icon: response.status,
+                            title: response.title,
+                            text: response.message + ' ' + name_mitra,
                         });
-                        $('#mitra' + response.id).remove();
+                        if (response.status == 'success') {
+                            $('#mitra' + response.id).remove();
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.error(textStatus, errorThrown);

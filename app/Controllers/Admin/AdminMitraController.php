@@ -124,6 +124,31 @@ class AdminMitraController extends BaseController
         return redirect()->to(base_url('admin/mitra/request-mitra'))->with('success_message', 'Berhasil mengubah data mitra');
     }
 
+    public function delete($id)
+    {
+        $mitraModel = new MitraModel();
+        $deletedRows = $mitraModel->where('id', $id)->delete();
+        // var_dump($deletedRows);
+
+        if ($deletedRows) {
+            $data = [
+                'status' => 'success',
+                'title' => 'Berhasil',
+                'message' => 'Berhasil menghapus data',
+                'id' => $id
+            ];
+        } else {
+            $data = [
+                'status' => 'error',
+                'title' => 'Gagal',
+                'message' => 'Gagal menghapus data',
+                'id' => $id
+            ];
+        }
+
+        echo json_encode($data);
+    }
+
     public function approve()
     {
         $id_mitra = $this->request->getPost('id_mitra');
