@@ -53,6 +53,7 @@ class AdminTabungController extends BaseController
         $tabung->category = $validateData['category'];
         $tabung->size = $validateData['size'];
         $tabung->weight = $validateData['weight'];
+        $tabung->weight = $validateData['stock'];
 
         $tabungModel = new TabungModel();
         $tabungModel->save($tabung);

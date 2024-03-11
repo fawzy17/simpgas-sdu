@@ -52,7 +52,7 @@
                             </td>
                             <td class="text-left"><?= $tabung->size ?></td>
                             <td class="text-left"><?= $tabung->weight ?></td>
-                            <td class="text-left">200</td>
+                            <td class="text-left"><?= $tabung->stock ?></td>
                             <td class="text-left"><?= $tabung->total_borrowed ?> </td>
                         </tr>
                     <?php endforeach; ?>
@@ -75,6 +75,10 @@
                 "targets": [0, 3, 4, 5, 6]
             } // Assuming column indexes 3 and 4 contain numerical values
         ],
+        "fixedColumns": {
+            start: 2,
+            end: 0
+        },
         "scrollX": true,
         "autoWidth": true,
         "scrollCollapse": true,

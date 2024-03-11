@@ -12,7 +12,7 @@ class MitraModel extends Model
     protected $returnType       = 'App\Entities\MitraEntity';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'tubes_borrowed', 'address', 'user_id', 'verified'];
+    protected $allowedFields    = ['name', 'address', 'user_id', 'verified'];
 
     protected bool $allowEmptyInserts = false;
 
@@ -43,8 +43,10 @@ class MitraModel extends Model
     public function get_mitra()
     {
         return $this->db->table('mitras')
-            ->select('mitras.*, users.email, users.username')
+            ->select('mitras.*, users.email, users.username, COALESCE(SUM(peminjamans.amount), 0) AS total_tubes_borrowed')
             ->join('users', 'users.id = mitras.user_id')
+            ->join('peminjamans', 'peminjamans.mitra_id = mitras.id', 'LEFT')
+            ->groupBy('mitras.id')
             ->get()
             ->getResult();
     }

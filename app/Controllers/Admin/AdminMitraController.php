@@ -66,7 +66,6 @@ class AdminMitraController extends BaseController
         $user = $userModel->where('email', $validateData['email'])->first();
 
         $mitra->name = $validateData['name'];
-        $mitra->tubes_borrowe = $validateData['tubes_borrowed'];
         $mitra->address = $validateData['address'];
         $mitra->user_id = $user->id;
 
@@ -114,7 +113,6 @@ class AdminMitraController extends BaseController
 
         $mitra->id = $id;
         $mitra->name = $validateData['name'];
-        $mitra->tubes_borrowe = $validateData['tubes_borrowed'];
         $mitra->address = $validateData['address'];
         $mitra->user_id = $user->id;
 
@@ -157,6 +155,20 @@ class AdminMitraController extends BaseController
         $mitra = [
             'id' => $id_mitra,
             'verified' => 1
+        ];
+
+        $mitraModel->save($mitra);
+
+        echo json_encode($mitra);
+    }
+    public function delete_from_list()
+    {
+        $id_mitra = $this->request->getPost('id_mitra');
+
+        $mitraModel = new MitraModel();
+        $mitra = [
+            'id' => $id_mitra,
+            'verified' => 0
         ];
 
         $mitraModel->save($mitra);

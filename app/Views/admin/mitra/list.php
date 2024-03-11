@@ -34,15 +34,15 @@
                         if ($mitra->verified == 1) :
                             $text =  $mitra->address;
                     ?>
-                            <tr id="mitra<?= $mitra->id ?>" >
+                            <tr id="mitra<?= $mitra->id ?>">
                                 <td class="text-left"><?= $no++ ?></td>
                                 <td class="text-left"><?= $mitra->name ?></td>
                                 <td class="text-left"><?= $mitra->email ?></td>
-                                <td class="text-left"><?= $mitra->tubes_borrowed ?></td>
+                                <td class="text-left"><?= $mitra->total_tubes_borrowed ?></td>
                                 <td class="text-left address-detail" data-address-mitra="<?= $mitra->address ?>"><?= strlen($text) > 35 ? substr($text, 0, 35) . '...' : $text; ?></td>
                                 <td class="text-left">
-                                    <a href="<?= base_url('/admin/mitra/edit/'. $mitra->id); ?>" class="btn btn-success edit-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Edit</a>
-                                    <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="<?= $mitra->id ?>" data-name-mitra="<?= $mitra->name ?>">Delete</button>
+                                    <a href="<?= base_url('/admin/mitra/edit/' . $mitra->id); ?>" class="btn btn-success edit-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Edit</a>
+                                    <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="<?= $mitra->id ?>" data-name-mitra="<?= $mitra->name ?>" data-tubes-borrowed="<?= $mitra->total_tubes_borrowed ?>">Delete</button>
                                 </td>
                             </tr>
                     <?php
@@ -64,10 +64,13 @@
     let jquery_datatable = $("#table1").DataTable({
         "responsive": true,
         "columnDefs": [{
-                "type": "string",
-                "targets": [0, 3, 5]
-            } // Assuming column indexes 3 and 4 contain numerical values
-        ],
+            "type": "string",
+            "targets": "_all"
+        }],
+        "fixedColumns": {
+            start: 2,
+            end: 0
+        },
         "scrollX": true,
         "autoWidth": true,
         "scrollCollapse": true,
@@ -100,6 +103,17 @@
     $(document).on('click', '.delete-mitra-btn', function(e) {
         var id_mitra = $(this).data('id-mitra');
         var name_mitra = $(this).data('name-mitra');
+        var tubes_borrowed = $(this).data('tubes-borrowed');
+        console.log(tubes_borrowed > 1);
+        if (tubes_borrowed > 1) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Gagal',
+                text: 'Anda tidak dapat menghapus data mitra yang masih meminjam tabung'
+            });
+
+            return
+        }
         Swal.fire({
             icon: 'warning',
             title: 'Yakin?',
@@ -112,7 +126,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?= base_url() ?>admin/mitra/reject',
+                    url: '<?= base_url() ?>admin/mitra/delete-from-list',
                     type: 'POST',
                     data: {
                         "id_mitra": id_mitra

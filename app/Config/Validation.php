@@ -118,6 +118,12 @@ class Validation extends BaseConfig
                 'required' => 'Berat tabung harus diisi'
             ]
         ],
+        'stock' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Berat tabung harus diisi'
+            ]
+        ],
     ];
 
     public array $mitra = [
@@ -125,12 +131,6 @@ class Validation extends BaseConfig
             'rules' => 'required',
             'errors' => [
                 'required' => 'Nama mitra harus diisi'
-            ]
-        ],
-        'tubes_borrowed' => [
-            'rules' => 'required',
-            'errors' => [
-                'required' => 'Jumlah tabung yang dipinjam harus diisi'
             ]
         ],
         'address' => [

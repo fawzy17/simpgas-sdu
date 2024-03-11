@@ -14,14 +14,24 @@ class TabungSeeder extends Seeder
                 'name' => 'Nitrogen',
                 'category' => 1,
                 'size' => 10000,
-                'weight' => 100
+                'weight' => 100,
+                'stock' => 100
             ],
             [
                 'id' => 2,
                 'name' => 'Oksigen',
                 'category' => 1,
                 'size' => 10000,
-                'weight' => 100
+                'weight' => 100,
+                'stock' => 100
+            ],
+            [
+                'id' => 3,
+                'name' => 'LPG',
+                'category' => 1,
+                'size' => 100,
+                'weight' => 12,
+                'stock' => 50
             ],
         ];
 

@@ -12,7 +12,7 @@ class TabungModel extends Model
     protected $returnType       = 'App\Entities\TabungEntity';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'category', 'size', 'weight'];
+    protected $allowedFields    = ['name', 'category', 'size', 'weight', 'stock'];
 
     protected bool $allowEmptyInserts = false;
 

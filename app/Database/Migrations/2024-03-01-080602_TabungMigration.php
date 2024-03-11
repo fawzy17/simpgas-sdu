@@ -34,6 +34,11 @@ class TabungMigration extends Migration
                 'constraint' => 8,
                 'default' => 0
             ],
+            'stock' => [
+                'type' => 'INT',
+                'constraint' => 8,
+                'default' => 0
+            ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT NULL',
             'deleted_at DATETIME DEFAULT NULL',

@@ -19,11 +19,6 @@ class MitraMigration extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'tubes_borrowed' => [
-                'type' => 'INT',
-                'constraint' => 5,
-                'default' => 0
-            ],
             'address' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255

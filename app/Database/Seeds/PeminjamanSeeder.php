@@ -30,6 +30,13 @@ class PeminjamanSeeder extends Seeder
                 'tabung_id' => 2,
                 'amount' => 15
             ],
+            [
+                'id' => 4,
+                'loan_code' => 'asrcas13',
+                'mitra_id' => 1,
+                'tabung_id' => 2,
+                'amount' => 15
+            ],
         ];
 
         $this->db->table('peminjamans')->insertBatch($data);

@@ -58,6 +58,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="stock">Stok</label>
+                                        <input type="number" id="stock" class="form-control <?= $validation->hasError('stock') ? 'is-invalid' : ''; ?>" name="stock" placeholder="Jumlah Tabung" value="<?= set_value('stock', old('stock')); ?>">
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('stock'); ?>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>

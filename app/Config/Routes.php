@@ -56,6 +56,7 @@ $routes->group(
                 $routes->delete('delete/(:num)', [AdminMitraController::class, 'delete']);
                 $routes->post('approve', [AdminMitraController::class, 'approve']);
                 $routes->post('reject', [AdminMitraController::class, 'reject']);
+                $routes->post('delete-from-list', [AdminMitraController::class, 'delete_from_list']);
                 $routes->post('revert', [AdminMitraController::class, 'revert']);
             });
             $routes->group('peminjaman', function($routes){
