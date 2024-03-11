@@ -2,7 +2,7 @@
 
 use App\Controllers\Admin\AdminDashboardController;
 use App\Controllers\Admin\AdminMitraController;
-use App\Controllers\Admin\AdminPeminjamanContoller;
+use App\Controllers\Admin\AdminPeminjamanController;
 use App\Controllers\Admin\AdminTabungController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
@@ -63,8 +63,13 @@ $routes->group(
                 $routes->post('revert', [AdminMitraController::class, 'revert']);
             });
             $routes->group('peminjaman', function($routes){
-                $routes->get('/ ', [AdminPeminjamanContoller::class, 'list_peminjaman']);
-                $routes->get('list-peminjaman', [AdminPeminjamanContoller::class, 'list_peminjaman']);
+                $routes->get('/ ', [AdminPeminjamanController::class, 'list_peminjaman']);
+                $routes->get('list-peminjaman', [AdminPeminjamanController::class, 'list_peminjaman']);
+                $routes->get('list-request-peminjaman', [AdminPeminjamanController::class, 'list_request_peminjaman']);
+                $routes->post('approve', [AdminPeminjamanController::class, 'approve']);
+                $routes->post('reject', [AdminPeminjamanController::class, 'reject']);
+                $routes->post('revert', [AdminPeminjamanController::class, 'revert']);
+                $routes->delete('delete/(:num)', [AdminPeminjamanController::class, 'delete']);
             });
         });
     }

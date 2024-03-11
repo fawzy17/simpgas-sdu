@@ -14,28 +14,36 @@ class PeminjamanSeeder extends Seeder
                 'loan_code' => 'asrcas12',
                 'mitra_id' => 1,
                 'tabung_id' => 1,
-                'amount' => 10
+                'amount' => 10,
+                'approval' => NULL,
+                'status' => NULL
             ],
             [
                 'id' => 2,
                 'loan_code' => 'asrcas12',
                 'mitra_id' => 1,
                 'tabung_id' => 2,
-                'amount' => 15
+                'amount' => 15,
+                'approval' => 'approved',
+                'status' => 'done'
             ],
             [
                 'id' => 3,
                 'loan_code' => 'asrcas11',
                 'mitra_id' => 2,
                 'tabung_id' => 2,
-                'amount' => 15
+                'amount' => 15,
+                'approval' => 'approved',
+                'status' => 'waiting'
             ],
             [
                 'id' => 4,
                 'loan_code' => 'asrcas13',
                 'mitra_id' => 1,
                 'tabung_id' => 2,
-                'amount' => 15
+                'amount' => 15,
+                'approval' => 'rejected',
+                'status' => 'waiting'
             ],
         ];
 

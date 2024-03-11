@@ -43,7 +43,7 @@ class TabungModel extends Model
     public function get_tabung()
     {
         return $this->db->table('tabungs')
-            ->select('tabungs.*, COALESCE(SUM(peminjamans.amount), 0) AS total_borrowed')
+            ->select('tabungs.*, COALESCE(SUM(CASE WHEN peminjamans.status = \'done\' THEN peminjamans.amount ELSE 0 END), 0) AS total_borrowed')
             ->join('peminjamans', 'tabungs.id = peminjamans.tabung_id', 'LEFT')
             ->groupBy('tabungs.id')
             ->get()

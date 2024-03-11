@@ -12,7 +12,7 @@ class PeminjamanMigration extends Migration
             'id' => [
                 'type' => 'INT',
                 'constraint' => 5,
-                'auto_increament' => true,
+                'auto_increment' => true,
             ],
             'loan_code' => [
                 'type' => 'VARCHAR',
@@ -32,6 +32,16 @@ class PeminjamanMigration extends Migration
                 'type' => 'INT',
                 'constraint' => 5,
                 'default' => 0
+            ],
+            'approval' => [
+                'type' => 'ENUM',
+                'constraint' => ['approved', 'rejected'],
+                'default' => NULL
+            ],
+            'status' => [
+                'type' => 'ENUM',
+                'constraint' => ['waiting', 'sent', 'done'],
+                'default' => NULL
             ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT NULL',

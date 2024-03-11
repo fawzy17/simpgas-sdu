@@ -76,10 +76,9 @@
     let jquery_datatable = $("#table1").DataTable({
         "responsive": true,
         "columnDefs": [{
-                "type": "string",
-                "targets": [0, 3, 4, 5, 6]
-            } // Assuming column indexes 3 and 4 contain numerical values
-        ],
+            "type": "string",
+            "targets": "_all"
+        }],
         "fixedColumns": {
             start: 2,
             end: 0

@@ -12,7 +12,7 @@ class PeminjamanModel extends Model
     protected $returnType       = 'App\Entities\PeminjamanEntity';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['loan_code', 'mitra_id', 'tabung_id', 'amount'];
+    protected $allowedFields    = ['loan_code', 'mitra_id', 'tabung_id', 'amount', 'approval'];
 
     protected bool $allowEmptyInserts = false;
 
@@ -60,6 +60,7 @@ class PeminjamanModel extends Model
             ->select('peminjamans.mitra_id, peminjamans.tabung_id, mitras.name as mitra_name, tabungs.name as tabung_name, SUM(peminjamans.amount) as total_amount')
             ->join('mitras', 'mitras.id = peminjamans.mitra_id', 'LEFT')
             ->join('tabungs', 'tabungs.id = peminjamans.tabung_id', 'LEFT')
+            ->where('peminjamans.status', 'done') // Hanya peminjaman yang telah di-approve
             ->groupBy('peminjamans.mitra_id, peminjamans.tabung_id')
             ->get()
             ->getResult();

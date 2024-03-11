@@ -27,7 +27,6 @@
                     <tr>
                         <th>No.</th>
                         <th>Nama</th>
-                        <th>Tabung yang dipinjam</th>
                         <th>Alamat mitra</th>
                         <th>Persetujuan</th>
                     </tr>
@@ -41,7 +40,6 @@
                             <tr id="mitra<?= $mitra->id ?>">
                                 <td class="text-left"><?= $no++ ?></td>
                                 <td class="text-left"><?= $mitra->name ?></td>
-                                <td class="text-left"><?= $mitra->tubes_borrowed ?></td>
                                 <td class="text-left address-detail" data-address-mitra="<?= $mitra->address ?>"><?= strlen($text) > 35 ? substr($text, 0, 35) . '...' : $text; ?></td>
                                 <td id="verified<?= $mitra->id ?>" class="text-left">
                                     <?php if ($mitra->verified == null) : ?>

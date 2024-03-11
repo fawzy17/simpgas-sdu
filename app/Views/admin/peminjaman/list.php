@@ -3,7 +3,7 @@
 
 <?= $this->endSection(); ?>
 <?= $this->section('page_title'); ?>
-<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Pinjaman', 'description' => 'Kelola data tabung yang dipinjam oleh mitra']); ?>
+<?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Peminjaman', 'description' => 'Kelola data tabung yang dipinjam oleh mitra']); ?>
 <?= $this->endSection(); ?>
 
 <?= $this->section('content'); ?>

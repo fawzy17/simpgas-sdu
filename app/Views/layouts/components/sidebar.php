@@ -74,8 +74,8 @@
                             <li class="submenu-item <?= service('uri')->getSegment(3) == 'list-peminjaman' ? 'active' : '' ?>">
                                 <a href="<?= base_url('/admin/peminjaman/list-peminjaman'); ?>" class="submenu-link">List</a>
                             </li>
-                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'request-peminjaman' ? 'active' : '' ?>">
-                                <a href="<?= base_url('/admin/peminjaman/request-peminjaman'); ?>" class="submenu-link">Request</a>
+                            <li class="submenu-item <?= service('uri')->getSegment(3) == 'list-request-peminjaman' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/admin/peminjaman/list-request-peminjaman'); ?>" class="submenu-link">Request</a>
                             </li>
                         </ul>
                     </li>
