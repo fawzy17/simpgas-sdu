@@ -12,7 +12,7 @@ class PeminjamanModel extends Model
     protected $returnType       = 'App\Entities\PeminjamanEntity';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['loan_code', 'mitra_id', 'tabung_id', 'amount', 'approval'];
+    protected $allowedFields    = ['loan_code', 'mitra_id', 'tabung_id', 'amount', 'approval', 'status'];
 
     protected bool $allowEmptyInserts = false;
 

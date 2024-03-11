@@ -31,7 +31,8 @@ class AdminPeminjamanController extends BaseController
         return view('admin/peminjaman/list', $data);
     }
 
-    public function list_request_peminjaman(){
+    public function list_request_peminjaman()
+    {
         $peminjamanModel = new PeminjamanModel();
         $peminjaman = $peminjamanModel->get_peminjaman();
         // dd($peminjaman);
@@ -49,6 +50,47 @@ class AdminPeminjamanController extends BaseController
         ];
 
         return view('admin/peminjaman/request', $data);
+    }
+
+    public function new()
+    {
+        helper(['form']);
+
+        $data = [
+            'title' => 'Tambah Peminjaman',
+            'validation' => \Config\Services::validation(),
+        ];
+
+        return view('admin/peminjaman/new', $data);
+    }
+
+    public function store()
+    {
+        helper((['form']));
+
+        if (!$this->validate('peminjaman')) {
+            $data = [
+                'title' => 'Tambah Peminjaman',
+                'validation' => $this->validator
+            ];
+
+            return view('admin/peminjaman/new', $data);
+        }
+
+        $peminjaman = new \App\Entities\PeminjamanEntity();
+
+        $validateData = $this->validator->getValidated();
+
+        // $peminjaman->name = $validateData['name'];
+        // $peminjaman->category = $validateData['category'];
+        // $peminjaman->size = $validateData['size'];
+        // $peminjaman->weight = $validateData['weight'];
+        // $peminjaman->weight = $validateData['stock'];
+
+        $peminjamanModel = new PeminjamanModel();
+        $peminjamanModel->save($peminjaman);
+
+        return redirect()->to(base_url('admin/peminjaman/stock'))->with('success_message', 'Berhasil menambahkan data peminjaman');
     }
 
     public function delete($id)
@@ -115,6 +157,22 @@ class AdminPeminjamanController extends BaseController
             'id' => $id_peminjaman,
             'approval' => NULL,
             'status' => NULL
+        ];
+
+        $peminjamanModel->save($peminjaman);
+
+        echo json_encode($peminjaman);
+    }
+
+    public function change_status()
+    {
+        $id_peminjaman = $this->request->getPost('id_peminjaman');
+        $selected_status = $this->request->getPost('selected_status');
+
+        $peminjamanModel = new PeminjamanModel();
+        $peminjaman = [
+            'id' => $id_peminjaman,
+            'status' => $selected_status
         ];
 
         $peminjamanModel->save($peminjaman);

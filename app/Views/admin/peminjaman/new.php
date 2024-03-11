@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <?= form_open(base_url('admin/mitra/new')) ?>
+                        <?= form_open(base_url('admin/peminjaman/new')) ?>
                         <?php if (isset($validation)) : ?>
                             <div class="row">
                                 <div class="col-md-6 col-12">

@@ -15,7 +15,7 @@
             <h5 class="card-title mb-0">
                 Tabel Request Peminjaman Tabung oleh Mitra
             </h5>
-            <a href="<?= base_url('/admin/tabung/new'); ?>" class="btn btn-sm icon icon-left btn-danger">
+            <a href="<?= base_url('/admin/peminjaman/new'); ?>" class="btn btn-sm icon icon-left btn-danger">
                 <i class="bi bi-person-plus"></i>
                 Tambah
             </a>
@@ -72,10 +72,10 @@
                                     <?php endif; ?>
                                 </td>
                                 <td id="status<?= $peminjaman->id ?>">
-                                    <select id="category" name="category" class="choices form-select" value="<?= $peminjaman->status ?>" <?= $peminjaman->approval != 'approved' ? 'disabled' : ''; ?>>
-                                        <option value="waiting">Menunggu</option>
-                                        <option value="sent">Dikirim</option>
-                                        <option value="done">Selesai</option>
+                                    <select id="status-progress<?= $peminjaman->id ?>" name="status-progress<?= $peminjaman->id ?>" class="choices form-select select-status" data-id-peminjaman="<?= $peminjaman->id ?>" data-code-peminjaman="<?= $peminjaman->loan_code ?>" data-mitra-name="<?= $peminjaman->mitra_name ?>" value="<?= $peminjaman->status ?>" <?= $peminjaman->approval != 'approved' ? 'disabled' : ''; ?>>
+                                        <option value="waiting" <?= $peminjaman->status == 'waiting' ? 'selected' : ''; ?>>Menunggu</option>
+                                        <option value="sent" <?= $peminjaman->status == 'sent' ? 'selected' : ''; ?>>Dikirim</option>
+                                        <option value="done" <?= $peminjaman->status == 'done' ? 'selected' : ''; ?>>Selesai</option>
                                     </select>
                                 </td>
                             </tr>
@@ -154,7 +154,7 @@
                     $('#status' + response.id).empty();
                     $('#status' + response.id).html(
                         `
-                            <select id="category" name="category" class="choices form-select" value="waiting">
+                            <select id="status-progress${response.id}" name="status-progress${response.id}" class="choices form-select select-status" data-id-peminjaman="${response.id}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}" value="waiting">
                                 <option value="waiting">Menunggu</option>
                                 <option value="sent">Dikirim</option>
                                 <option value="done">Selesai</option>
@@ -212,44 +212,65 @@
             var id_peminjaman = $(this).data('id-peminjaman');
             var code_peminjaman = $(this).data('code-peminjaman');
             var mitra_name = $(this).data('mitra-name');
-            Swal.fire({
-                icon: 'warning',
-                title: 'Yakin?',
-                text: 'Merubah status persetujuan ' + mitra_name,
-                showCancelButton: true, // Menampilkan tombol pembatalan
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Revert!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '<?= base_url() ?>admin/peminjaman/revert',
-                        type: 'POST',
-                        data: {
-                            "id_peminjaman": id_peminjaman
-                        },
-                        success: function(response) {
-                            response = JSON.parse(response);
-                            console.log('berhasil revert ' + response.id);
-                            $('#approval' + response.id).empty();
-                            $('#approval' + response.id).html(
-                                `
-                                    <button class="btn btn-success approve-btn" type="submit" data-id-peminjaman="${id_peminjaman}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">Approve</button>
-                                    <button class="btn btn-danger reject-btn" type="submit" data-id-peminjaman="${id_peminjaman}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">Reject</button>
-                                    
-                                `
-                            );
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.error(textStatus, errorThrown);
-                        }
-                    });
-                }
-            });
+            if ($("#status-progress" + id_peminjaman).val() != 'waiting') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Approval tidak dapat diubah ketika status bukan menunggu',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Yakin?',
+                    text: 'Merubah status persetujuan ' + mitra_name,
+                    showCancelButton: true, // Menampilkan tombol pembatalan
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Revert!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '<?= base_url() ?>admin/peminjaman/revert',
+                            type: 'POST',
+                            data: {
+                                "id_peminjaman": id_peminjaman
+                            },
+                            success: function(response) {
+                                response = JSON.parse(response);
+                                console.log('berhasil revert ' + response.id);
+                                $('#approval' + response.id).empty();
+                                $('#approval' + response.id).html(
+                                    `
+                                        <button class="btn btn-success approve-btn" type="submit" data-id-peminjaman="${id_peminjaman}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">Approve</button>
+                                        <button class="btn btn-danger reject-btn" type="submit" data-id-peminjaman="${id_peminjaman}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">Reject</button>
+                                        
+                                    `
+                                );
+                                $('#status' + response.id).empty();
+                                $('#status' + response.id).html(
+                                    `
+                                        <select id="status-progress${response.id}" name="status-progress${response.id}" class="choices form-select select-status" data-id-peminjaman="${response.id}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}" value="waiting" disabled>
+                                            <option value="waiting">Menunggu</option>
+                                            <option value="sent">Dikirim</option>
+                                            <option value="done">Selesai</option>
+                                        </select>
+                                    `
+                                );
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error(textStatus, errorThrown);
+                            }
+                        });
+                    }
+                });
+
+            }
         });
     });
-    
+
     $(document).on('click', '.delete-peminjaman-btn', function(e) {
         var id_peminjaman = $(this).data('id-peminjaman');
         var mitra_name = $(this).data('mitra-name');
@@ -283,6 +304,60 @@
                         console.error(textStatus, errorThrown);
                     }
                 });
+            }
+        });
+    });
+
+    $('.select-status').each(function() {
+        var select_element = $(this);
+        select_element.data('original-status', select_element.val());
+    });
+
+    $(document).on('change', '.select-status', function() {
+        var selected_status = $(this).val();
+        var original_status = $(this).data('original-status');
+
+        var id_peminjaman = $(this).data('id-peminjaman');
+        var loan_code = $(this).data('code-peminjaman');
+        var mitra_name = $(this).data('mitra-name');
+
+        Swal.fire({
+            icon: 'warning',
+            title: 'Yakin?',
+            text: 'Mengubah status ' + mitra_name + ' dengan kode ' + loan_code + ' menjadi ' + selected_status,
+            showCancelButton: true, // Menampilkan tombol pembatalan
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Ubah!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?= base_url() ?>admin/peminjaman/change-status',
+                    type: 'POST',
+                    data: {
+                        id_peminjaman: id_peminjaman,
+                        selected_status: selected_status
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Status permintaan ' + mitra_name + ' kode ' + loan_code + ' berhasil diubah',
+                        });
+                        $('.select-status').each(function() {
+                            var select_element = $(this);
+                            select_element.data('original-status', select_element.val());
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error(textStatus, errorThrown);
+                    }
+                });
+            } else {
+                $(this).val(original_status);
+
             }
         });
     });

@@ -66,9 +66,12 @@ $routes->group(
                 $routes->get('/ ', [AdminPeminjamanController::class, 'list_peminjaman']);
                 $routes->get('list-peminjaman', [AdminPeminjamanController::class, 'list_peminjaman']);
                 $routes->get('list-request-peminjaman', [AdminPeminjamanController::class, 'list_request_peminjaman']);
+                $routes->get('new', [AdminPeminjamanController::class, 'new']);
+                $routes->post('new', [AdminPeminjamanController::class, 'store']);
                 $routes->post('approve', [AdminPeminjamanController::class, 'approve']);
                 $routes->post('reject', [AdminPeminjamanController::class, 'reject']);
                 $routes->post('revert', [AdminPeminjamanController::class, 'revert']);
+                $routes->post('change-status', [AdminPeminjamanController::class, 'change_status']);
                 $routes->delete('delete/(:num)', [AdminPeminjamanController::class, 'delete']);
             });
         });
