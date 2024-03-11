@@ -49,4 +49,15 @@ class TabungModel extends Model
             ->get()
             ->getResult();
     }
+
+    public function get_tabung_by_id($id)
+    {
+        return $this->db->table('tabungs')
+            ->select('tabungs.*, COALESCE(SUM(peminjamans.amount), 0) AS total_borrowed')
+            ->where('tabungs.id', $id) // Specify the table for the 'id' column
+            ->join('peminjamans', 'tabungs.id = peminjamans.tabung_id', 'LEFT')
+            ->groupBy('tabungs.id')
+            ->get()
+            ->getResult();
+    }
 }

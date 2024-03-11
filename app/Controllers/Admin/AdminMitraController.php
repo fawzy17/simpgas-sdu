@@ -82,7 +82,7 @@ class AdminMitraController extends BaseController
         $mitra = $mitraModel->get_mitra_by_id($id);
 
         $data = [
-            'title' => 'Tambah Mitra',
+            'title' => 'Edit Mitra',
             'mitra' => $mitra[0],
             'validation' => \Config\Services::validation(),
         ];
@@ -97,7 +97,7 @@ class AdminMitraController extends BaseController
             $mitraModel = new MitraModel();
             $mitra = $mitraModel->get_mitra_by_id($id);
             $data = [
-                'title' => 'Tambah Mitra',
+                'title' => 'Edit Mitra',
                 'mitra' => $mitra[0],
                 'validation' => \Config\Services::validation(),
             ];

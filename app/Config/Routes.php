@@ -40,10 +40,13 @@ $routes->group(
         $routes->group('admin', function ($routes) {
             $routes->get('dashboard', [AdminDashboardController::class, 'index']);
             $routes->group('tabung', function($routes){
-                $routes->get('/', [AdminTabungController::class, 'stok']);
-                $routes->get('stok', [AdminTabungController::class, 'stok']);
+                $routes->get('/', [AdminTabungController::class, 'stock']);
+                $routes->get('stock', [AdminTabungController::class, 'stock']);
                 $routes->get('new', [AdminTabungController::class, 'new']);
                 $routes->post('new', [AdminTabungController::class, 'store']);
+                $routes->get('edit/(:num)', [AdminTabungController::class, 'edit']);
+                $routes->post('update/(:num)', [AdminTabungController::class, 'update']);
+                $routes->delete('delete/(:num)', [AdminTabungController::class, 'delete']);
             });
             $routes->group('mitra', function($routes){
                 $routes->get('/', [AdminMitraController::class, 'list_mitra']);
