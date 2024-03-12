@@ -56,8 +56,12 @@ class AdminPeminjamanController extends BaseController
     {
         helper(['form']);
 
+        $tabungModel = new TabungModel();
+        $tabung = $tabungModel->get_stock_tabung_ready();
+
         $data = [
             'title' => 'Tambah Peminjaman',
+            'tabungs' => $tabung,
             'validation' => \Config\Services::validation(),
         ];
 

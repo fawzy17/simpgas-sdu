@@ -346,6 +346,9 @@
                             title: 'Berhasil',
                             text: 'Status permintaan ' + mitra_name + ' kode ' + loan_code + ' berhasil diubah',
                         });
+                        if (selected_status == 'done') {
+                            $('#peminjaman' + id_peminjaman).remove();
+                        }
                         $('.select-status').each(function() {
                             var select_element = $(this);
                             select_element.data('original-status', select_element.val());

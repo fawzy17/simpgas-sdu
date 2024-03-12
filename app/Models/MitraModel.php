@@ -43,13 +43,17 @@ class MitraModel extends Model
     public function get_mitra()
     {
         return $this->db->table('mitras')
-            ->select('mitras.*, users.email, users.username, COALESCE(SUM(peminjamans.amount), 0) AS total_tubes_borrowed')
+            ->select('mitras.*, users.email, users.username, COALESCE(SUM(CASE WHEN peminjamans.status = "done" THEN peminjamans.amount ELSE 0 END), 0) AS total_tubes_borrowed')
             ->join('users', 'users.id = mitras.user_id')
             ->join('peminjamans', 'peminjamans.mitra_id = mitras.id', 'LEFT')
             ->groupBy('mitras.id')
             ->get()
             ->getResult();
     }
+
+
+    
+
 
     public function get_mitra_by_id(int $id)
     {
