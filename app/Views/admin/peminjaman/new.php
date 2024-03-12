@@ -20,40 +20,24 @@
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="name">Nama</label>
+                                        <label for="name">Nama Mitra</label>
                                         <input type="text" id="name" class="form-control <?= $validation->hasError('name') ? 'is-invalid' : ''; ?>" placeholder="PT. xxxx" name="name" value="<?= set_value('name', old('name')); ?>">
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('name'); ?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="tubes_borrowed">Tabung yang dipinjam</label>
-                                        <input type="number" id="tubes_borrowed" class="form-control <?= $validation->hasError('tubes_borrowed') ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="tubes_borrowed" value="<?= set_value('tubes_borrowed', old('tubes_borrowed')); ?>">
-                                        <div class="invalid-feedback">
-                                            <?= $validation->getError('tubes_borrowed'); ?>
+                                <?php foreach ($tabungs as $tabung) : ?>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="<?= $tabung->name ?>"><?= $tabung->name ?> (stock : <?= $tabung->stock_ready ?>)</label>
+                                            <input type="number" id="<?= $tabung->name ?>" class="form-control <?= $validation->hasError($tabung->name) ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="<?= $tabung->name ?>" value="<?= set_value($tabung->name, old($tabung->name)); ?>">
+                                            <div class="invalid-feedback">
+                                                <?= $validation->getError($tabung->name); ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="address">Alamat Mitra</label>
-                                        <input type="text" id="address" class="form-control <?= $validation->hasError('address') ? 'is-invalid' : ''; ?>" placeholder="Jl. xxxxxx" name="address" value="<?= set_value('address', old('address')); ?>">
-                                        <div class="invalid-feedback">
-                                            <?= $validation->getError('address'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" id="email" class="form-control <?= $validation->hasError('email') ? 'is-invalid' : ''; ?>" placeholder="user@gmail.com" name="email" value="<?= set_value('email', old('email')); ?>">
-                                        <div class="invalid-feedback">
-                                            <?= $validation->getError('email'); ?>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php endforeach; ?>
                                 <div class="col-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>

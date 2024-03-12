@@ -60,4 +60,12 @@ class TabungModel extends Model
             ->get()
             ->getResult();
     }
+
+    public function get_stock_tabung_ready()
+    {
+        return $this->db->query('SELECT tabungs.*, 
+            (tabungs.stock - COALESCE((SELECT SUM(amount) FROM peminjamans WHERE peminjamans.status = "done" AND peminjamans.tabung_id = tabungs.id), 0)) AS stock_ready 
+            FROM tabungs')
+            ->getResult();
+    }
 }

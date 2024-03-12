@@ -161,6 +161,10 @@
                             </select>
                         `
                     );
+                    $('.select-status').each(function() {
+                        var select_element = $(this);
+                        select_element.data('original-status', select_element.val());
+                    });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error(textStatus, errorThrown);
@@ -350,6 +354,9 @@
                             var select_element = $(this);
                             select_element.data('original-status', select_element.val());
                         });
+                        if (selected_status == 'done') {
+                            $('#peminjaman' + id_peminjaman).remove();
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.error(textStatus, errorThrown);

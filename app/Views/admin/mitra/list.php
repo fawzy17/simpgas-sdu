@@ -23,7 +23,7 @@
                         <th>No.</th>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Tabung Dipinjam</th>
+                        <th>Meminjam Tabung</th>
                         <th>Alamat mitra</th>
                         <th>Aksi</th>
                     </tr>
