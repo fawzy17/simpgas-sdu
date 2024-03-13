@@ -69,17 +69,17 @@
                                 echo '<td>' . $amount . '</td>';
                             endforeach;
                             ?>
-                            <td id="approval<?= $peminjaman->loan_code ?>" class="text-left">
-                                <?php if ($peminjaman->approval == null) : ?>
+                            <td id="approval<?= $groupedPeminjaman['loan_code'] ?>" class="text-left">
+                                <?php if ($groupedPeminjaman['approval'] == null) : ?>
                                     <button class="btn btn-success approve-btn" type="submit" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">Approve</button>
                                     <button class="btn btn-danger reject-btn" type="submit" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">Reject</button>
-                                <?php elseif ($peminjaman->approval == 'approved') : ?>
+                                <?php elseif ($groupedPeminjaman['approval'] == 'approved') : ?>
                                     <a type="button" class="btn btn-outline-info revert-btn" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">
                                         <i class="bi bi-arrow-counterclockwise"></i>
                                         Revert
                                     </a>
                                     <a class="btn btn-success">Approved</a>
-                                <?php elseif ($peminjaman->approval == 'rejected') : ?>
+                                <?php elseif ($groupedPeminjaman['approval'] == 'rejected') : ?>
                                     <a type="button" class="btn btn-outline-info revert-btn" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">
                                         <i class="bi bi-arrow-counterclockwise"></i>
                                         Revert
