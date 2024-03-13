@@ -23,7 +23,15 @@
                         <th>No.</th>
                         <th>Mitra</th>
                         <?php foreach ($tabungs as $tabung) : ?>
-                            <th><?= $tabung->name ?></th>
+                            <th>
+                                <?php if ($tabung->category_massa == 'kubik') : ?>
+                                    <?= $tabung->name . ' ' . $tabung->category_name ?>m<sup>3</sup>
+                                <?php elseif ($tabung->category_massa == 'kilogram') : ?>
+                                    <?= $tabung->name . ' ' . $tabung->category_name ?>Kg
+                                <?php else : ?>
+                                    <?= $tabung->name . ' ' . $tabung->category_name ?>
+                                <?php endif; ?>
+                            </th>
                         <?php endforeach; ?>
                     </tr>
                 </thead>

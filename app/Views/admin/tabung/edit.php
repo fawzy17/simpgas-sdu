@@ -42,24 +42,6 @@
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="size">Ukuran (L)</label>
-                                        <input type="number" id="size" class="form-control <?= $validation->hasError('size') ? 'is-invalid' : ''; ?>" placeholder="Dalam Litre" name="size" value="<?= set_value('size', $tabung != null ? $tabung->size : old('size')); ?>">
-                                        <div class="invalid-feedback">
-                                            <?= $validation->getError('size'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="weight">Berat (KG)</label>
-                                        <input type="number" id="weight" class="form-control <?= $validation->hasError('weight') ? 'is-invalid' : ''; ?>" name="weight" placeholder="Dalam Kilogram" value="<?= set_value('weight', $tabung != null ? $tabung->weight : old('weight')); ?>">
-                                        <div class="invalid-feedback">
-                                            <?= $validation->getError('weight'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
                                         <label for="stock">Stok</label>
                                         <input type="number" id="stock" class="form-control <?= $validation->hasError('stock') ? 'is-invalid' : ''; ?>" name="stock" placeholder="Jumlah Tabung" value="<?= set_value('stock', $tabung != null ? $tabung->stock : old('stock')); ?>">
                                         <div class="invalid-feedback">

@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class TabungMigration extends Migration
+class CategoryMigration extends Migration
 {
     public function up()
     {
@@ -19,36 +19,21 @@ class TabungMigration extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'category' => [
-                'type' => 'INT',
-                'constraint' => 5,
-                'unsigned' => true
-            ],
-            'size' => [
-                'type' => 'INT',
-                'constraint' => 8,
-                'default' => 0
-            ],
-            'weight' => [
-                'type' => 'INT',
-                'constraint' => 8,
-                'default' => 0
-            ],
-            'stock' => [
-                'type' => 'INT',
-                'constraint' => 8,
-                'default' => 0
+            'massa' => [
+                'type' => 'ENUM',
+                'constraint' => ['kilogram', 'kubik'],
+                'default' => NULL
             ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT NULL',
             'deleted_at DATETIME DEFAULT NULL',
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('tabungs');
+        $this->forge->createTable('categories');
     }
 
     public function down()
     {
-        $this->forge->dropTable('tabungs');
+        $this->forge->dropTable('categories');
     }
 }

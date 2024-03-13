@@ -17,7 +17,8 @@ class AdminPeminjamanController extends BaseController
         // dd($peminjaman);
 
         $tabungModel = new TabungModel();
-        $tabung = $tabungModel->findAll();
+        $tabung = $tabungModel->get_tabung();
+        // dd($tabung);
 
         $mitraModel = new MitraModel();
         $mitra = $mitraModel->where('verified', 1)->findAll();
@@ -38,7 +39,7 @@ class AdminPeminjamanController extends BaseController
         // dd($peminjaman);
 
         $tabungModel = new TabungModel();
-        $tabung = $tabungModel->findAll();
+        $tabung = $tabungModel->get_tabung();
 
         $mitraModel = new MitraModel();
         $mitra = $mitraModel->where('verified', 1)->findAll();
@@ -84,11 +85,17 @@ class AdminPeminjamanController extends BaseController
                     'required' => 'Nama mitra harus diisi'
                 ]
             ],
+            'address' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Alamat harus diisi'
+                ]
+            ],
         ];
 
         foreach ($tabungs as $tabung) {
             $peminjaman_rules += [
-                $tabung->name => [
+                $tabung->name . $tabung->id => [
                     'rules' => 'required|numeric|less_than_equal_to[' . $tabung->stock_ready . ']',
                     'errors' => [
                         'required' => 'Jumlah tabung tidak boleh kosong',
@@ -98,6 +105,7 @@ class AdminPeminjamanController extends BaseController
                 ]
             ];
         }
+        // dd($peminjaman_rules);
 
         if (!$this->validate($peminjaman_rules)) {
             $tabungModel = new TabungModel();
@@ -117,20 +125,20 @@ class AdminPeminjamanController extends BaseController
 
         $validateData = $this->validator->getValidated();
         // dd($validateData);
-        $uniqueCode = uniqid();
+        $uniqueCode = substr(uniqid(), -4);
 
         $currentDate = date('Ymd');
 
-        $loan_code =  $currentDate . $uniqueCode;
+        $loan_code = $currentDate . $uniqueCode;    
 
 
         foreach ($tabungs as $tabung) {
-            if ($validateData[$tabung->name] > 0) {
+            if ($validateData[$tabung->name . $tabung->id] > 0) {
                 $peminjaman = new \App\Entities\PeminjamanEntity();
                 $peminjaman->loan_code = $loan_code;
                 $peminjaman->mitra_id = $validateData['mitra'];
                 $peminjaman->tabung_id = $tabung->id;
-                $peminjaman->amount = $validateData[$tabung->name];
+                $peminjaman->amount = $validateData[$tabung->name . $tabung->id];
                 // dd($peminjaman);
 
                 $peminjamanModel = new PeminjamanModel();
@@ -138,31 +146,32 @@ class AdminPeminjamanController extends BaseController
             }
         }
 
-
         return redirect()->to(base_url('admin/peminjaman/list-request-peminjaman'))->with('success_message', 'Berhasil menambahkan data peminjaman');
     }
 
-    public function delete($id)
+    public function delete($loan_code)
     {
         $peminjamanModel = new PeminjamanModel();
-        $deletedRows = $peminjamanModel->where('id', $id)->delete();
-        // var_dump($deletedRows);
+        $deletedRows = $peminjamanModel->where('loan_code', $loan_code)->delete();
 
         if ($deletedRows) {
             $data = [
                 'status' => 'success',
                 'title' => 'Berhasil',
                 'message' => 'Berhasil menghapus data peminjaman',
-                'id' => $id
             ];
         } else {
             $data = [
                 'status' => 'error',
                 'title' => 'Gagal',
                 'message' => 'Gagal menghapus data peminjaman',
-                'id' => $id
             ];
         }
+        // $data = [
+        //     'status' => 'error',
+        //     'title' => 'Gagal',
+        //     'message' => 'Gagal menghapus data peminjaman',
+        // ];
 
         echo json_encode($data);
     }

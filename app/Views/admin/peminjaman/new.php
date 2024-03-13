@@ -35,13 +35,29 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="address">Alamat</label>
+                                        <input type="text" id="address" class="form-control <?= $validation->hasError('address') ? 'is-invalid' : ''; ?>" placeholder="Dikirim ke alamat ini" name="address" value="<?= set_value('address', old('address')); ?>">
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('address'); ?>
+                                        </div>
+                                    </div>
+                                </div>
                                 <?php foreach ($tabungs as $tabung) : ?>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="<?= $tabung->name ?>"><?= $tabung->name ?> (stock : <?= $tabung->stock_ready ?>)</label>
-                                            <input type="number" id="<?= $tabung->name ?>" class="form-control <?= $validation->hasError($tabung->name) ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="<?= $tabung->name ?>" value="<?= set_value($tabung->name, old($tabung->name)); ?>">
+                                            <label for="<?= $tabung->name.$tabung->id ?>">
+                                                <?= $tabung->name ?> (<?= $tabung->category_name ?>
+                                                <?php if ($tabung->category_massa == 'kubik') : ?>
+                                                    m<sup>3</sup>
+                                                <?php elseif ($tabung->category_massa == 'kilogram') : ?>
+                                                    Kg
+                                                    <?php endif; ?>) - Stock: <?= $tabung->stock_ready ?>
+                                            </label>
+                                            <input type="number" id="<?= $tabung->name.$tabung->id ?>" class="form-control <?= $validation->hasError($tabung->name.$tabung->id) ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="<?= $tabung->name.$tabung->id ?>" value="<?= set_value($tabung->name.$tabung->id, old($tabung->name.$tabung->id)) ?? '0'; ?>">
                                             <div class="invalid-feedback">
-                                                <?= $validation->getError($tabung->name); ?>
+                                                <?= $validation->getError($tabung->name.$tabung->id); ?>
                                             </div>
                                         </div>
                                     </div>

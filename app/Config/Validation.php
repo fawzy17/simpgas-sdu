@@ -106,18 +106,6 @@ class Validation extends BaseConfig
                 'required' => 'Kategory tabung harus diisi'
             ]
         ],
-        'size' => [
-            'rules' => 'required',
-            'errors' => [
-                'required' => 'Ukuran tabung harus diisi'
-            ]
-        ],
-        'weight' => [
-            'rules' => 'required',
-            'errors' => [
-                'required' => 'Berat tabung harus diisi'
-            ]
-        ],
         'stock' => [
             'rules' => 'required',
             'errors' => [

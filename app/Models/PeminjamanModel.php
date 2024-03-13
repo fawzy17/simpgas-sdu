@@ -48,9 +48,7 @@ class PeminjamanModel extends Model
             ->select('peminjamans.*, 
             mitras.name as mitra_name,
             tabungs.name as tabung_name,
-            tabungs.category as tabung_category,
-            tabungs.size as tabung_size,
-            tabungs.weight as tabung_weight,
+            tabungs.id as tabung_id,
         ')->get()->getResult();
     }
 

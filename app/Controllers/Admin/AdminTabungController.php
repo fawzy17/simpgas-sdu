@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\CategoryModel;
 use App\Models\TabungModel;
 use App\Validation\TabungValidation;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -12,7 +13,8 @@ class AdminTabungController extends BaseController
     public function stock()
     {
         $tabungModel = new TabungModel();
-        $tabung = $tabungModel->get_tabung();
+        $tabung = $tabungModel->get_detail_tabung();
+        // dd($tabung);
         $data = [
             'tabungs' => $tabung,
             'title' => 'Tabung'
@@ -25,8 +27,12 @@ class AdminTabungController extends BaseController
     {
         helper(['form']);
 
+        $categoryModel = new CategoryModel();
+        $categories = $categoryModel->findAll();
+
         $data = [
             'title' => 'Tambah Tabung',
+            'categories' => $categories,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -37,9 +43,13 @@ class AdminTabungController extends BaseController
     {
         helper((['form']));
 
+
         if (!$this->validate('tabung')) {
+            $categoryModel = new CategoryModel();
+            $categories = $categoryModel->findAll();
             $data = [
                 'title' => 'Tambah Tabung',
+                'categories' => $categories,
                 'validation' => $this->validator
             ];
 
@@ -52,9 +62,7 @@ class AdminTabungController extends BaseController
 
         $tabung->name = $validateData['name'];
         $tabung->category = $validateData['category'];
-        $tabung->size = $validateData['size'];
-        $tabung->weight = $validateData['weight'];
-        $tabung->weight = $validateData['stock'];
+        $tabung->stock = $validateData['stock'];
 
         $tabungModel = new TabungModel();
         $tabungModel->save($tabung);
@@ -68,10 +76,13 @@ class AdminTabungController extends BaseController
 
         $tabungModel = new TabungModel();
         $tabung = $tabungModel->get_tabung_by_id($id);
+        $categoryModel = new CategoryModel();
+        $categories = $categoryModel->findAll();
 
         $data = [
             'title' => 'Edit Tabung',
             'tabung' => $tabung[0],
+            'categories' => $categories,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -89,9 +100,12 @@ class AdminTabungController extends BaseController
         if (!$this->validate('tabung')) {
             $tabungModel = new TabungModel();
             $tabung = $tabungModel->get_tabung_by_id($id);
+            $categoryModel = new CategoryModel();
+            $categories = $categoryModel->findAll();
             $data = [
                 'title' => 'Edit Tabung',
                 'tabung' => $tabung[0],
+                'categories' => $categories,
                 'validation' => \Config\Services::validation(),
             ];
             return view('admin/tabung/edit', $data);
@@ -105,8 +119,6 @@ class AdminTabungController extends BaseController
         $tabung->id = $id;
         $tabung->name = $validateData['name'];
         $tabung->category = $validateData['category'];
-        $tabung->size = $validateData['size'];
-        $tabung->weight = $validateData['weight'];
         $tabung->stock = $validateData['stock'];
 
         $tabungModel = new TabungModel();

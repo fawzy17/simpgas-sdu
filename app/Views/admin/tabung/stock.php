@@ -28,8 +28,6 @@
                         <th>No.</th>
                         <th>Nama</th>
                         <th>Kategori</th>
-                        <th>Ukuran(L)</th>
-                        <th>Berat(KG)</th>
                         <th>Stok</th>
                         <th>Dipinjam</th>
                         <th>Aksi</th>
@@ -42,17 +40,14 @@
                             <td class="text-left"><?= $no++ ?></td>
                             <td class="text-left"><?= $tabung->name ?></td>
                             <td class="text-left">
-                                <?php if ($tabung->category == 1) {
-                                    echo "Gass";
-                                } elseif ($tabung->category == 2) {
-                                    echo "Liquid";
-                                } elseif ($tabung->category == 3) {
-                                    echo "Solid";
-                                }
-                                ?>
+                                <?php if ($tabung->category_massa == 'kubik') : ?>
+                                    <?= $tabung->category_name ?>m<sup>3</sup>
+                                <?php elseif ($tabung->category_massa == 'kilogram') : ?>
+                                    <?= $tabung->category_name ?>Kg
+                                <?php else : ?>
+                                    <?= $tabung->category_name ?>
+                                <?php endif; ?>
                             </td>
-                            <td class="text-left"><?= $tabung->size ?></td>
-                            <td class="text-left"><?= $tabung->weight ?></td>
                             <td class="text-left"><?= $tabung->stock ?></td>
                             <td class="text-left"><?= $tabung->total_borrowed ?> </td>
                             <td class="text-left">
@@ -74,6 +69,7 @@
 <?= $this->section('scripts'); ?>
 <script>
     let jquery_datatable = $("#table1").DataTable({
+        "ordering": false,
         "responsive": true,
         "columnDefs": [{
             "type": "string",
@@ -86,9 +82,6 @@
         "scrollX": true,
         "autoWidth": true,
         "scrollCollapse": true,
-        "fixedColumns": {
-            "leftColumns": 3
-        }
     })
 
     const setTableColor = () => {

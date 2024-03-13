@@ -21,15 +21,23 @@
             </a>
         </div>
         <div class="card-body">
-            <table id="table1" class="table table-stripped" style="width:100%">
-                <thead>
+            <table id="table1" class="table table-stripped nowrap display" style="width:100%">
+                <thead class="fixed-header">
                     <tr>
                         <th>No.</th>
                         <th>Kode Peminjaman</th>
-                        <th>Mitra</th>
+                        <th>Nama Mitra</th>
                         <th>Tanggal Pengajuan</th>
                         <?php foreach ($tabungs as $tabung) : ?>
-                            <th><?= $tabung->name ?></th>
+                            <th>
+                                <?php if ($tabung->category_massa == 'kubik') : ?>
+                                    <?= $tabung->name . ' ' . $tabung->category_name ?>m<sup>3</sup>
+                                <?php elseif ($tabung->category_massa == 'kilogram') : ?>
+                                    <?= $tabung->name . ' ' . $tabung->category_name ?>Kg
+                                <?php else : ?>
+                                    <?= $tabung->name . ' ' . $tabung->category_name ?>
+                                <?php endif; ?>
+                            </th>
                         <?php endforeach; ?>
                         <th>Aksi</th>
                         <th>Status</th>
@@ -52,7 +60,7 @@
                                 ];
                             endif;
 
-                            $groupedPeminjamans[$peminjaman->loan_code]['tabungs'][$peminjaman->tabung_name] = $peminjaman->amount;
+                            $groupedPeminjamans[$peminjaman->loan_code]['tabungs'][$peminjaman->tabung_id] = $peminjaman->amount;
                         endif;
                     endforeach;
 
@@ -65,7 +73,7 @@
                             <td><?= $groupedPeminjaman['created_at'] ?></td>
                             <?php
                             foreach ($tabungs as $tabung) :
-                                $amount = isset($groupedPeminjaman['tabungs'][$tabung->name]) ? $groupedPeminjaman['tabungs'][$tabung->name] : 0;
+                                $amount = isset($groupedPeminjaman['tabungs'][$tabung->id]) ? $groupedPeminjaman['tabungs'][$tabung->id] : 0;
                                 echo '<td>' . $amount . '</td>';
                             endforeach;
                             ?>
@@ -87,7 +95,7 @@
                                     <button class="btn btn-danger delete-peminjaman-btn" type="submit" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">Delete</button>
                                 <?php endif; ?>
                             </td>
-                            <td  id="status<?= $groupedPeminjaman['loan_code'] ?>">
+                            <td id="status<?= $groupedPeminjaman['loan_code'] ?>">
                                 <select id="status-progress<?= $groupedPeminjaman['loan_code'] ?>" class="choices form-select select-status" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>" value="<?= $groupedPeminjaman['status'] ?>" <?= $groupedPeminjaman['approval'] != 'approved' ? 'disabled' : ''; ?>>
                                     <option value="waiting" <?= $groupedPeminjaman['status'] == 'waiting' ? 'selected' : ''; ?>>Menunggu</option>
                                     <option value="sent" <?= $groupedPeminjaman['status'] == 'sent' ? 'selected' : ''; ?>>Dikirim</option>
@@ -98,7 +106,6 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-
         </div>
     </div>
 
@@ -110,19 +117,21 @@
 <?= $this->section('scripts'); ?>
 <script>
     let jquery_datatable = $("#table1").DataTable({
-        "fixedColumns": {
-            start: 1,
-            end: 0
-        },
-        "responsive": true,
         "columnDefs": [{
             "type": "string",
             "targets": "_all"
         }],
-        "scrollX": true,
-        "autoWidth": true,
-        "scrollCollapse": true,
-
+        "order": [
+            [3, "asc"]
+        ],
+        fixedColumns: {
+            start: 3,
+            end: 0
+        },
+        paging: false,
+        scrollCollapse: true,
+        scrollX: true,
+        scrollY: 300
     })
 
     const setTableColor = () => {
@@ -193,7 +202,7 @@
                 url: '<?= base_url() ?>admin/peminjaman/reject',
                 type: 'POST',
                 data: {
-                    "loan_code" : loan_code
+                    "loan_code": loan_code
                 },
                 success: function(response) {
                     response = JSON.parse(response);
@@ -208,11 +217,11 @@
                     $('#approval' + loan_code).empty();
                     $('#approval' + loan_code).html(
                         `
-                            <a type="button" class="btn btn-outline-info revert-btn" data-id-peminjaman="${loan_code}" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">
+                            <a type="button" class="btn btn-outline-info revert-btn" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">
                                 <i class="bi bi-arrow-counterclockwise"></i>
                                 Revert
                             </a>
-                            <button class="btn btn-danger delete-peminjaman-btn" type="submit" data-id-peminjaman="${loan_code}" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">Delete</button>
+                            <button class="btn btn-danger delete-peminjaman-btn" type="submit" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">Delete</button>
                         `
                     );
                 },
@@ -268,7 +277,7 @@
                                 $('#status' + loan_code).empty();
                                 $('#status' + loan_code).html(
                                     `
-                                        <select id="status-progress${loan_code}" name="status-progress${loan_code}" class="choices form-select select-status" data-id-peminjaman="${loan_code}" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}" value="waiting" disabled>
+                                        <select id="status-progress${loan_code}" name="status-progress${loan_code}" class="choices form-select select-status" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}" value="waiting" disabled>
                                             <option value="waiting">Menunggu</option>
                                             <option value="sent">Dikirim</option>
                                             <option value="done">Selesai</option>
@@ -307,11 +316,11 @@
                     success: function(response) {
                         response = JSON.parse(response);
                         Swal.fire({
-                            icon: status,
-                            title: title,
-                            text: message + ' ' + mitra_name,
+                            icon: response.status,
+                            title: response.title,
+                            text: response.message + ' ' + mitra_name,
                         });
-                        if (status == 'success') {
+                        if (response.status == 'success') {
                             $('#peminjaman' + loan_code).remove();
                         }
                     },
