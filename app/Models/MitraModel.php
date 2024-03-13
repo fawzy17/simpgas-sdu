@@ -12,7 +12,7 @@ class MitraModel extends Model
     protected $returnType       = 'App\Entities\MitraEntity';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'address', 'user_id', 'verified'];
+    protected $allowedFields    = ['name', 'address', 'user_id', 'verified', 'pic_name', 'pic_contact'];
 
     protected bool $allowEmptyInserts = false;
 

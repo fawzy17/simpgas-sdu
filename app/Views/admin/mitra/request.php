@@ -27,7 +27,9 @@
                     <tr>
                         <th>No.</th>
                         <th>Nama</th>
-                        <th>Alamat mitra</th>
+                        <th>Alamat Perusahaan</th>
+                        <th>Nama PIC</th>
+                        <th>Kontak PIC</th>
                         <th>Persetujuan</th>
                     </tr>
                 </thead>
@@ -41,6 +43,8 @@
                                 <td class="text-left"><?= $no++ ?></td>
                                 <td class="text-left"><?= $mitra->name ?></td>
                                 <td class="text-left address-detail" data-address-mitra="<?= $mitra->address ?>"><?= strlen($text) > 35 ? substr($text, 0, 35) . '...' : $text; ?></td>
+                                <td class="text-left"><?= $mitra->pic_name ?></td>
+                                <td class="text-left"><?= $mitra->pic_contact ?></td>
                                 <td id="verified<?= $mitra->id ?>" class="text-left">
                                     <?php if ($mitra->verified == null) : ?>
                                         <button class="btn btn-success approve-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Approve</button>

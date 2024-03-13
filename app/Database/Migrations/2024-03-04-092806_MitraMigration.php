@@ -33,6 +33,14 @@ class MitraMigration extends Migration
                 'constraint' => 1,
                 'default' => NULL
             ],
+            'pic_name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'pic_contact' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT NULL',
             'deleted_at DATETIME DEFAULT NULL',

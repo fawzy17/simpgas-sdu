@@ -23,8 +23,10 @@
                         <th>No.</th>
                         <th>Nama</th>
                         <th>Email</th>
+                        <th>Alamat Perusahaan</th>
+                        <th>Nama PIC</th>
+                        <th>Kontak PIC</th>
                         <th>Meminjam Tabung</th>
-                        <th>Alamat mitra</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -38,8 +40,10 @@
                                 <td class="text-left"><?= $no++ ?></td>
                                 <td class="text-left"><?= $mitra->name ?></td>
                                 <td class="text-left"><?= $mitra->email ?></td>
-                                <td class="text-left"><?= $mitra->total_tubes_borrowed ?></td>
                                 <td class="text-left address-detail" data-address-mitra="<?= $mitra->address ?>"><?= strlen($text) > 35 ? substr($text, 0, 35) . '...' : $text; ?></td>
+                                <td class="text-left"><?= $mitra->pic_name ?></td>
+                                <td class="text-left"><?= $mitra->pic_contact ?></td>
+                                <td class="text-left"><?= $mitra->total_tubes_borrowed ?></td>
                                 <td class="text-left">
                                     <a href="<?= base_url('/admin/mitra/edit/' . $mitra->id); ?>" class="btn btn-success edit-btn" type="submit" data-id-mitra="<?= $mitra->id ?>">Edit</a>
                                     <button class="btn btn-danger delete-mitra-btn" type="submit" data-id-mitra="<?= $mitra->id ?>" data-name-mitra="<?= $mitra->name ?>" data-tubes-borrowed="<?= $mitra->total_tubes_borrowed ?>">Delete</button>
