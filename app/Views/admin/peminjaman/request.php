@@ -27,6 +27,7 @@
                         <th>No.</th>
                         <th>Kode Peminjaman</th>
                         <th>Mitra</th>
+                        <th>Tanggal Pengajuan</th>
                         <?php foreach ($tabungs as $tabung) : ?>
                             <th><?= $tabung->name ?></th>
                         <?php endforeach; ?>
@@ -37,53 +38,67 @@
                 <tbody>
                     <?php
                     $no = 1;
+                    $groupedPeminjamans = [];
                     foreach ($peminjamans as $peminjaman) :
                         if ($peminjaman->status != 'done') :
-                    ?>
-                            <tr id="peminjaman<?= $peminjaman->id ?>">
-                                <td><?= $no++ ?></td>
-                                <td><?= $peminjaman->loan_code ?></td>
-                                <td><?= $peminjaman->mitra_name ?></td>
-                                <?php
-                                foreach ($tabungs as $tabung) :
-                                    if ($peminjaman->tabung_id == $tabung->id) :
-                                        echo '<td>' . $peminjaman->amount . '</td>';
-                                    else :
-                                        echo '<td>0</td>';
-                                    endif;
-                                endforeach;
-                                ?>
-                                <td id="approval<?= $peminjaman->id ?>" class="text-left">
-                                    <?php if ($peminjaman->approval == null) : ?>
-                                        <button class="btn btn-success approve-btn" type="submit" data-id-peminjaman="<?= $peminjaman->id ?>" data-mitra-name="<?= $peminjaman->mitra_name ?>">Approve</button>
-                                        <button class="btn btn-danger reject-btn" type="submit" data-id-peminjaman="<?= $peminjaman->id ?>" data-code-peminjaman="<?= $peminjaman->loan_code ?>" data-mitra-name="<?= $peminjaman->mitra_name ?>">Reject</button>
-                                    <?php elseif ($peminjaman->approval == 'approved') : ?>
-                                        <a type="button" class="btn btn-outline-info revert-btn" data-id-peminjaman="<?= $peminjaman->id ?>" data-code-peminjaman="<?= $peminjaman->loan_code ?>" data-mitra-name="<?= $peminjaman->mitra_name ?>">
-                                            <i class="bi bi-arrow-counterclockwise"></i>
-                                            Revert
-                                        </a>
-                                        <a class="btn btn-success">Approved</a>
-                                    <?php elseif ($peminjaman->approval == 'rejected') : ?>
-                                        <a type="button" class="btn btn-outline-info revert-btn" data-id-peminjaman="<?= $peminjaman->id ?>" data-code-peminjaman="<?= $peminjaman->loan_code ?>" data-mitra-name="<?= $peminjaman->mitra_name ?>">
-                                            <i class="bi bi-arrow-counterclockwise"></i>
-                                            Revert
-                                        </a>
-                                        <button class="btn btn-danger delete-peminjaman-btn" type="submit" data-id-peminjaman="<?= $peminjaman->id ?>" data-code-peminjaman="<?= $peminjaman->loan_code ?>" data-mitra-name="<?= $peminjaman->mitra_name ?>">Delete</button>
-                                    <?php endif; ?>
-                                </td>
-                                <td id="status<?= $peminjaman->id ?>">
-                                    <select id="status-progress<?= $peminjaman->id ?>" name="status-progress<?= $peminjaman->id ?>" class="choices form-select select-status" data-id-peminjaman="<?= $peminjaman->id ?>" data-code-peminjaman="<?= $peminjaman->loan_code ?>" data-mitra-name="<?= $peminjaman->mitra_name ?>" value="<?= $peminjaman->status ?>" <?= $peminjaman->approval != 'approved' ? 'disabled' : ''; ?>>
-                                        <option value="waiting" <?= $peminjaman->status == 'waiting' ? 'selected' : ''; ?>>Menunggu</option>
-                                        <option value="sent" <?= $peminjaman->status == 'sent' ? 'selected' : ''; ?>>Dikirim</option>
-                                        <option value="done" <?= $peminjaman->status == 'done' ? 'selected' : ''; ?>>Selesai</option>
-                                    </select>
-                                </td>
-                            </tr>
-                    <?php
+                            if (!isset($groupedPeminjamans[$peminjaman->loan_code])) :
+                                $groupedPeminjamans[$peminjaman->loan_code] = [
+                                    'mitra_name' => $peminjaman->mitra_name,
+                                    'loan_code' => $peminjaman->loan_code,
+                                    'status' => $peminjaman->status,
+                                    'approval' => $peminjaman->approval,
+                                    'created_at' => $peminjaman->created_at,
+                                    'tabungs' => [],
+                                ];
+                            endif;
+
+                            $groupedPeminjamans[$peminjaman->loan_code]['tabungs'][$peminjaman->tabung_name] = $peminjaman->amount;
                         endif;
-                    endforeach; ?>
+                    endforeach;
+
+                    foreach ($groupedPeminjamans as $groupedPeminjaman) :
+                    ?>
+                        <tr id="peminjaman<?= $groupedPeminjaman['loan_code'] ?>">
+                            <td><?= $no++ ?></td>
+                            <td><?= $groupedPeminjaman['loan_code'] ?></td>
+                            <td><?= $groupedPeminjaman['mitra_name'] ?></td>
+                            <td><?= $groupedPeminjaman['created_at'] ?></td>
+                            <?php
+                            foreach ($tabungs as $tabung) :
+                                $amount = isset($groupedPeminjaman['tabungs'][$tabung->name]) ? $groupedPeminjaman['tabungs'][$tabung->name] : 0;
+                                echo '<td>' . $amount . '</td>';
+                            endforeach;
+                            ?>
+                            <td id="approval<?= $peminjaman->loan_code ?>" class="text-left">
+                                <?php if ($peminjaman->approval == null) : ?>
+                                    <button class="btn btn-success approve-btn" type="submit" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">Approve</button>
+                                    <button class="btn btn-danger reject-btn" type="submit" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">Reject</button>
+                                <?php elseif ($peminjaman->approval == 'approved') : ?>
+                                    <a type="button" class="btn btn-outline-info revert-btn" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                        Revert
+                                    </a>
+                                    <a class="btn btn-success">Approved</a>
+                                <?php elseif ($peminjaman->approval == 'rejected') : ?>
+                                    <a type="button" class="btn btn-outline-info revert-btn" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                        Revert
+                                    </a>
+                                    <button class="btn btn-danger delete-peminjaman-btn" type="submit" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>">Delete</button>
+                                <?php endif; ?>
+                            </td>
+                            <td  id="status<?= $groupedPeminjaman['loan_code'] ?>">
+                                <select id="status-progress<?= $groupedPeminjaman['loan_code'] ?>" class="choices form-select select-status" data-code-peminjaman="<?= $groupedPeminjaman['loan_code'] ?>" data-mitra-name="<?= $groupedPeminjaman['mitra_name'] ?>" value="<?= $groupedPeminjaman['status'] ?>" <?= $groupedPeminjaman['approval'] != 'approved' ? 'disabled' : ''; ?>>
+                                    <option value="waiting" <?= $groupedPeminjaman['status'] == 'waiting' ? 'selected' : ''; ?>>Menunggu</option>
+                                    <option value="sent" <?= $groupedPeminjaman['status'] == 'sent' ? 'selected' : ''; ?>>Dikirim</option>
+                                    <option value="done" <?= $groupedPeminjaman['status'] == 'done' ? 'selected' : ''; ?>>Selesai</option>
+                                </select>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
+
         </div>
     </div>
 
@@ -122,14 +137,13 @@
 <script>
     $(document).ready(function() {
         $(document).on('click', '.approve-btn', function(e) {
-            var id_peminjaman = $(this).data('id-peminjaman');
-            var code_peminjaman = $(this).data('code-peminjaman');
+            var loan_code = $(this).data('code-peminjaman');
             var mitra_name = $(this).data('mitra-name');
             $.ajax({
                 url: '<?= base_url() ?>admin/peminjaman/approve',
                 type: 'POST',
                 data: {
-                    "id_peminjaman": id_peminjaman
+                    "loan_code": loan_code
                 },
                 success: function(response) {
                     response = JSON.parse(response);
@@ -141,20 +155,20 @@
                         timer: 2000
                     })
 
-                    $('#approval' + response.id).empty();
-                    $('#approval' + response.id).html(
+                    $('#approval' + loan_code).empty();
+                    $('#approval' + loan_code).html(
                         `
-                            <a type="button" class="btn btn-outline-info revert-btn" data-id-peminjaman="${response.id}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">
+                            <a type="button" class="btn btn-outline-info revert-btn" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">
                                 <i class="bi bi-arrow-counterclockwise"></i>
                                 Revert
                             </a>
                             <a class="btn btn-success">Approved</a>
                         `
                     );
-                    $('#status' + response.id).empty();
-                    $('#status' + response.id).html(
+                    $('#status' + loan_code).empty();
+                    $('#status' + loan_code).html(
                         `
-                            <select id="status-progress${response.id}" name="status-progress${response.id}" class="choices form-select select-status" data-id-peminjaman="${response.id}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}" value="waiting">
+                            <select id="status-progress${loan_code}" name="status-progress${loan_code}" class="choices form-select select-status" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}" value="waiting">
                                 <option value="waiting">Menunggu</option>
                                 <option value="sent">Dikirim</option>
                                 <option value="done">Selesai</option>
@@ -173,14 +187,13 @@
 
         });
         $(document).on('click', '.reject-btn', function(e) {
-            var id_peminjaman = $(this).data('id-peminjaman');
-            var code_peminjaman = $(this).data('code-peminjaman');
+            var loan_code = $(this).data('code-peminjaman');
             var mitra_name = $(this).data('mitra-name');
             $.ajax({
                 url: '<?= base_url() ?>admin/peminjaman/reject',
                 type: 'POST',
                 data: {
-                    "id_peminjaman": id_peminjaman
+                    "loan_code" : loan_code
                 },
                 success: function(response) {
                     response = JSON.parse(response);
@@ -192,14 +205,14 @@
                         timer: 2000
                     })
 
-                    $('#approval' + response.id).empty();
-                    $('#approval' + response.id).html(
+                    $('#approval' + loan_code).empty();
+                    $('#approval' + loan_code).html(
                         `
-                            <a type="button" class="btn btn-outline-info revert-btn" data-id-peminjaman="${response.id}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">
+                            <a type="button" class="btn btn-outline-info revert-btn" data-id-peminjaman="${loan_code}" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">
                                 <i class="bi bi-arrow-counterclockwise"></i>
                                 Revert
                             </a>
-                            <button class="btn btn-danger delete-peminjaman-btn" type="submit" data-id-peminjaman="${response.id}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">Delete</button>
+                            <button class="btn btn-danger delete-peminjaman-btn" type="submit" data-id-peminjaman="${loan_code}" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">Delete</button>
                         `
                     );
                 },
@@ -213,10 +226,9 @@
 
 
         $(document).on('click', '.revert-btn', function(e) {
-            var id_peminjaman = $(this).data('id-peminjaman');
-            var code_peminjaman = $(this).data('code-peminjaman');
+            var loan_code = $(this).data('code-peminjaman');
             var mitra_name = $(this).data('mitra-name');
-            if ($("#status-progress" + id_peminjaman).val() != 'waiting') {
+            if ($("#status-progress" + loan_code).val() != 'waiting') {
                 Swal.fire({
                     icon: 'error',
                     title: 'Gagal',
@@ -240,23 +252,23 @@
                             url: '<?= base_url() ?>admin/peminjaman/revert',
                             type: 'POST',
                             data: {
-                                "id_peminjaman": id_peminjaman
+                                "loan_code": loan_code
                             },
                             success: function(response) {
                                 response = JSON.parse(response);
-                                console.log('berhasil revert ' + response.id);
-                                $('#approval' + response.id).empty();
-                                $('#approval' + response.id).html(
+                                console.log('berhasil revert ' + loan_code);
+                                $('#approval' + loan_code).empty();
+                                $('#approval' + loan_code).html(
                                     `
-                                        <button class="btn btn-success approve-btn" type="submit" data-id-peminjaman="${id_peminjaman}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">Approve</button>
-                                        <button class="btn btn-danger reject-btn" type="submit" data-id-peminjaman="${id_peminjaman}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}">Reject</button>
+                                        <button class="btn btn-success approve-btn" type="submit" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">Approve</button>
+                                        <button class="btn btn-danger reject-btn" type="submit" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}">Reject</button>
                                         
                                     `
                                 );
-                                $('#status' + response.id).empty();
-                                $('#status' + response.id).html(
+                                $('#status' + loan_code).empty();
+                                $('#status' + loan_code).html(
                                     `
-                                        <select id="status-progress${response.id}" name="status-progress${response.id}" class="choices form-select select-status" data-id-peminjaman="${response.id}" data-code-peminjaman="${code_peminjaman}" data-mitra-name="${mitra_name}" value="waiting" disabled>
+                                        <select id="status-progress${loan_code}" name="status-progress${loan_code}" class="choices form-select select-status" data-id-peminjaman="${loan_code}" data-code-peminjaman="${loan_code}" data-mitra-name="${mitra_name}" value="waiting" disabled>
                                             <option value="waiting">Menunggu</option>
                                             <option value="sent">Dikirim</option>
                                             <option value="done">Selesai</option>
@@ -276,13 +288,12 @@
     });
 
     $(document).on('click', '.delete-peminjaman-btn', function(e) {
-        var id_peminjaman = $(this).data('id-peminjaman');
         var mitra_name = $(this).data('mitra-name');
-        var code_peminjaman = $(this).data('code-peminjaman');
+        var loan_code = $(this).data('code-peminjaman');
         Swal.fire({
             icon: 'warning',
             title: 'Yakin?',
-            text: 'Data pengajuan ' + mitra_name + ' dengan kode ' + code_peminjaman + ' akan dihapus secara permanen',
+            text: 'Data pengajuan ' + mitra_name + ' dengan kode ' + loan_code + ' akan dihapus secara permanen',
             showCancelButton: true, // Menampilkan tombol pembatalan
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -291,17 +302,17 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?= base_url() ?>admin/peminjaman/delete/' + id_peminjaman,
+                    url: '<?= base_url() ?>admin/peminjaman/delete/' + loan_code,
                     type: 'DELETE',
                     success: function(response) {
                         response = JSON.parse(response);
                         Swal.fire({
-                            icon: response.status,
-                            title: response.title,
-                            text: response.message + ' ' + mitra_name,
+                            icon: status,
+                            title: title,
+                            text: message + ' ' + mitra_name,
                         });
-                        if (response.status == 'success') {
-                            $('#peminjaman' + response.id).remove();
+                        if (status == 'success') {
+                            $('#peminjaman' + loan_code).remove();
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -321,7 +332,6 @@
         var selected_status = $(this).val();
         var original_status = $(this).data('original-status');
 
-        var id_peminjaman = $(this).data('id-peminjaman');
         var loan_code = $(this).data('code-peminjaman');
         var mitra_name = $(this).data('mitra-name');
 
@@ -340,7 +350,7 @@
                     url: '<?= base_url() ?>admin/peminjaman/change-status',
                     type: 'POST',
                     data: {
-                        id_peminjaman: id_peminjaman,
+                        loan_code: loan_code,
                         selected_status: selected_status
                     },
                     success: function(response) {
@@ -355,7 +365,7 @@
                             select_element.data('original-status', select_element.val());
                         });
                         if (selected_status == 'done') {
-                            $('#peminjaman' + id_peminjaman).remove();
+                            $('#peminjaman' + loan_code).remove();
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {

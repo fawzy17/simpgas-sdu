@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/main'); ?>
 <?= $this->section('heads'); ?>
-
+<link rel="stylesheet" href="<?= base_url('assets/css/choices.css'); ?>">
 <?= $this->endSection(); ?>
 <?= $this->section('page_title'); ?>
 <?= view_cell('\App\Libraries\HeadingPointer:show', ['title_header' => 'Pinjaman', 'description' => 'Isi form dibawah untuk menambahkan data mitra']); ?>
@@ -18,12 +18,20 @@
                         <?= form_open(base_url('admin/peminjaman/new')) ?>
                         <?php if (isset($validation)) : ?>
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-6 mb-4">
                                     <div class="form-group">
-                                        <label for="name">Nama Mitra</label>
-                                        <input type="text" id="name" class="form-control <?= $validation->hasError('name') ? 'is-invalid' : ''; ?>" placeholder="PT. xxxx" name="name" value="<?= set_value('name', old('name')); ?>">
+                                        <label for="mitra">Nama Mitra</label>
+                                        <select id="mitra" name="mitra" class="choices form-select  <?= $validation->hasError('mitra') ? 'is-invalid' : ''; ?>">
+                                            <?php
+                                            foreach ($mitras as $mitra) :
+                                                if ($mitra->verified == 1) : ?>
+                                                    <option value="<?= $mitra->id ?>"><?= $mitra->name ?></option>
+                                            <?php
+                                                endif;
+                                            endforeach; ?>
+                                        </select>
                                         <div class="invalid-feedback">
-                                            <?= $validation->getError('name'); ?>
+                                            <?= $validation->getError('mitra'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -73,5 +81,6 @@
     setTableColor()
     jquery_datatable.on('draw', setTableColor)
 </script>
-
+<script src="<?= base_url('assets/js/choices.js'); ?>"></script>
+<script src="<?= base_url('assets/js/form-element-select.js'); ?>"></script>
 <?= $this->endSection(); ?>

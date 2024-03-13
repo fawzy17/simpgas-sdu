@@ -62,7 +62,7 @@
 <script>
     let jquery_datatable = $("#table1").DataTable({
         "fixedColumns": {
-            start: 1,
+            start: 2,
             end: 0
         },
         "responsive": true,

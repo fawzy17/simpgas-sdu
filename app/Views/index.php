@@ -100,6 +100,9 @@
                                     <li class="nav-item">
                                         <a href="#contact">Contact</a>
                                     </li>
+                                    <div class="nav-item d-sm-none d-inline-block">
+                                        <a class="main-btn text-white" href="<?= base_url('/auth/login'); ?>">Sign In</a>
+                                    </div>
                                 </ul>
                             </div> <!-- navbar collapse -->
 

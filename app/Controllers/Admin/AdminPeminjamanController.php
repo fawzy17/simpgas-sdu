@@ -59,9 +59,13 @@ class AdminPeminjamanController extends BaseController
         $tabungModel = new TabungModel();
         $tabung = $tabungModel->get_stock_tabung_ready();
 
+        $mitraModel = new MitraModel();
+        $mitra = $mitraModel->findAll();
+
         $data = [
             'title' => 'Tambah Peminjaman',
             'tabungs' => $tabung,
+            'mitras' => $mitra,
             'validation' => \Config\Services::validation(),
         ];
 
@@ -71,30 +75,71 @@ class AdminPeminjamanController extends BaseController
     public function store()
     {
         helper((['form']));
+        $tabungModel = new TabungModel();
+        $tabungs = $tabungModel->get_stock_tabung_ready();
+        $peminjaman_rules = [
+            'mitra' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Nama mitra harus diisi'
+                ]
+            ],
+        ];
 
-        if (!$this->validate('peminjaman')) {
+        foreach ($tabungs as $tabung) {
+            $peminjaman_rules += [
+                $tabung->name => [
+                    'rules' => 'required|numeric|less_than_equal_to[' . $tabung->stock_ready . ']',
+                    'errors' => [
+                        'required' => 'Jumlah tabung tidak boleh kosong',
+                        'numeric' => 'Jumlah tabung harus berupa angka',
+                        'less_than_equal_to' => 'Tidak dapat meminjam tabung lebih dari stok yang tersedia (' . $tabung->stock_ready . ')'
+                    ]
+                ]
+            ];
+        }
+
+        if (!$this->validate($peminjaman_rules)) {
+            $tabungModel = new TabungModel();
+            $tabung = $tabungModel->get_stock_tabung_ready();
+            $mitraModel = new MitraModel();
+            $mitra = $mitraModel->findAll();
             $data = [
                 'title' => 'Tambah Peminjaman',
+                'tabungs' => $tabung,
+                'mitras' => $mitra,
                 'validation' => $this->validator
             ];
 
             return view('admin/peminjaman/new', $data);
         }
 
-        $peminjaman = new \App\Entities\PeminjamanEntity();
 
         $validateData = $this->validator->getValidated();
+        // dd($validateData);
+        $uniqueCode = uniqid();
 
-        // $peminjaman->name = $validateData['name'];
-        // $peminjaman->category = $validateData['category'];
-        // $peminjaman->size = $validateData['size'];
-        // $peminjaman->weight = $validateData['weight'];
-        // $peminjaman->weight = $validateData['stock'];
+        $currentDate = date('Ymd');
 
-        $peminjamanModel = new PeminjamanModel();
-        $peminjamanModel->save($peminjaman);
+        $loan_code =  $currentDate . $uniqueCode;
 
-        return redirect()->to(base_url('admin/peminjaman/stock'))->with('success_message', 'Berhasil menambahkan data peminjaman');
+
+        foreach ($tabungs as $tabung) {
+            if ($validateData[$tabung->name] > 0) {
+                $peminjaman = new \App\Entities\PeminjamanEntity();
+                $peminjaman->loan_code = $loan_code;
+                $peminjaman->mitra_id = $validateData['mitra'];
+                $peminjaman->tabung_id = $tabung->id;
+                $peminjaman->amount = $validateData[$tabung->name];
+                // dd($peminjaman);
+
+                $peminjamanModel = new PeminjamanModel();
+                $peminjamanModel->save($peminjaman);
+            }
+        }
+
+
+        return redirect()->to(base_url('admin/peminjaman/list-request-peminjaman'))->with('success_message', 'Berhasil menambahkan data peminjaman');
     }
 
     public function delete($id)
@@ -124,63 +169,86 @@ class AdminPeminjamanController extends BaseController
 
     public function approve()
     {
-        $id_peminjaman = $this->request->getPost('id_peminjaman');
+        $loan_code = $this->request->getPost('loan_code');
 
         $peminjamanModel = new PeminjamanModel();
-        $peminjaman = [
-            'id' => $id_peminjaman,
-            'approval' => 'approved',
-            'status' => 'waiting'
-        ];
+        $peminjaman = $peminjamanModel->where('loan_code', $loan_code)->findAll();
 
-        $peminjamanModel->save($peminjaman);
+        if ($peminjaman) {
+            $dataToUpdate = [
+                'approval' => 'approved',
+                'status' => 'waiting',
+            ];
 
-        echo json_encode($peminjaman);
+            // Update seluruh data dengan loan_code yang sama
+            $peminjamanModel->set($dataToUpdate)->where('loan_code', $loan_code)->update();
+
+            echo json_encode(['status' => 'success', 'message' => 'Data berhasil disetujui']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+        }
     }
+
     public function reject()
     {
-        $id_peminjaman = $this->request->getPost('id_peminjaman');
+        $loan_code = $this->request->getPost('loan_code');
 
         $peminjamanModel = new PeminjamanModel();
-        $peminjaman = [
-            'id' => $id_peminjaman,
-            'approval' => 'rejected',
-            'status' => NULL
-        ];
+        $peminjaman = $peminjamanModel->where('loan_code', $loan_code)->findAll();
 
-        $peminjamanModel->save($peminjaman);
+        if ($peminjaman) {
+            $dataToUpdate = [
+                'approval' => 'rejected',
+                'status' => NULL,
+            ];
 
-        echo json_encode($peminjaman);
+            $peminjamanModel->set($dataToUpdate)->where('loan_code', $loan_code)->update();
+
+            echo json_encode(['status' => 'success', 'message' => 'Data berhasil disetujui']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+        }
     }
     public function revert()
     {
-        $id_peminjaman = $this->request->getPost('id_peminjaman');
+        $loan_code = $this->request->getPost('loan_code');
 
         $peminjamanModel = new PeminjamanModel();
-        $peminjaman = [
-            'id' => $id_peminjaman,
-            'approval' => NULL,
-            'status' => NULL
-        ];
+        $peminjaman = $peminjamanModel->where('loan_code', $loan_code)->findAll();
 
-        $peminjamanModel->save($peminjaman);
+        if ($peminjaman) {
+            $dataToUpdate = [
+                'approval' => NULL,
+                'status' => NULL,
+            ];
 
-        echo json_encode($peminjaman);
+            $peminjamanModel->set($dataToUpdate)->where('loan_code', $loan_code)->update();
+
+            echo json_encode(['status' => 'success', 'message' => 'Data berhasil disetujui']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+        }
     }
 
     public function change_status()
     {
-        $id_peminjaman = $this->request->getPost('id_peminjaman');
+        $loan_code = $this->request->getPost('loan_code');
         $selected_status = $this->request->getPost('selected_status');
 
         $peminjamanModel = new PeminjamanModel();
-        $peminjaman = [
-            'id' => $id_peminjaman,
-            'status' => $selected_status
-        ];
+        $peminjaman = $peminjamanModel->where('loan_code', $loan_code)->findAll();
 
-        $peminjamanModel->save($peminjaman);
+        if ($peminjaman) {
+            $dataToUpdate = [
+                'status' => $selected_status,
+            ];
 
-        echo json_encode($peminjaman);
+            // Update seluruh data dengan loan_code yang sama
+            $peminjamanModel->set($dataToUpdate)->where('loan_code', $loan_code)->update();
+
+            echo json_encode(['status' => 'success', 'message' => 'Data berhasil disetujui']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Data tidak ditemukan']);
+        }
     }
 }
