@@ -63,4 +63,38 @@ class PeminjamanModel extends Model
             ->get()
             ->getResult();
     }
+
+    public function get_total_borrowed()
+    {
+        return $this->db->table('peminjamans')
+            ->where('status', 'done')
+            ->selectSum('amount')
+            ->get()
+            ->getRow()
+            ->amount;
+    }
+
+    public function get_peminjaman_per_month()
+    {
+        return $this->db->table('peminjamans')
+            ->select("MONTHNAME(created_at) as month, YEAR(created_at) as year, SUM(amount) as total_amount")
+            ->groupBy("YEAR(created_at), MONTH(created_at)")
+            ->get()
+            ->getResult();
+    }
+
+    public function get_month()
+    {
+        $query = $this->db->query("SELECT DISTINCT MONTHNAME(created_at) as month FROM peminjamans");
+        $result = $query->getResult();
+
+        $months = [];
+        foreach ($result as $row) {
+            // Konversi nama bulan ke format singkat (jan, feb, mar, dst.)
+            $month = date('M', strtotime($row->month));
+            $months[] = $month;
+        }
+
+        return $months;
+    }
 }

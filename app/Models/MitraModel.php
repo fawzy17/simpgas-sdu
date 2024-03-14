@@ -51,6 +51,14 @@ class MitraModel extends Model
             ->getResult();
     }
 
+    public function get_verified_mitra()
+    {
+        return $this->db->table('mitras')
+            ->where('verified', 1)
+            ->countAllResults();
+    }
+
+
     public function get_mitra_by_id(int $id)
     {
         return $this->db->table('mitras')

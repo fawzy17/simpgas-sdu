@@ -50,6 +50,15 @@ class TabungModel extends Model
             ->getResult();
     }
 
+    public function get_total_stock()
+    {
+        return $this->db->table('tabungs')
+            ->selectSum('stock')
+            ->get()
+            ->getRow()->stock;
+    }
+
+
     public function get_detail_tabung()
     {
         return $this->db->table('tabungs')
