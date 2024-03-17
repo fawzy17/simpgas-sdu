@@ -133,6 +133,18 @@ class Validation extends BaseConfig
                 'required' => 'Alamat mitra wajib diisi',
                 'user_valid_email' => 'Email ini tidak ditemukan di database'
             ]
+            ],
+        'pic_name' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Alamat mitra wajib diisi',
+            ]
+            ],
+        'pic_contact' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Alamat mitra wajib diisi',
+            ]
         ]
 
     ];

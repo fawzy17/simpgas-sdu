@@ -10,10 +10,6 @@ class UserDashboardController extends BaseController
     public function index()
     {
 
-        if (!session()->get('logged_in')) {
-            return redirect()->to(base_url('auth/login'));
-        };
-
         $data = [
             'title' => 'Dashboard'
         ];

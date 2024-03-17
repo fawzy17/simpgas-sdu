@@ -68,15 +68,14 @@ class MitraModel extends Model
             ->get()
             ->getResult();
     }
+
     public function get_mitra_by_user_id(int $id)
     {
-        $result = $this->db->table('mitras')
+        return $this->db->table('mitras')
             ->select('mitras.*, users.email, users.username')
             ->join('users', 'users.id = mitras.user_id')
             ->where(['users.id' => $id])
             ->get()
-            ->getRow();
-
-        return $result;
+            ->getResult();
     }
 }

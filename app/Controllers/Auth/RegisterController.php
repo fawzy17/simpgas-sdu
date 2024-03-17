@@ -74,6 +74,7 @@ class RegisterController extends BaseController
         $userModel->save($user);
         $dataSession = $user->toArray() + [
             'id' => $user->id,
+            'email' => $user->email,
             'username' => $user->username,
             'role_id' => $user->role_id,
             'logged_in' => true,
@@ -110,6 +111,7 @@ class RegisterController extends BaseController
             if ($user) {
                 $dataSession =  [
                     'id' => $user->id,
+                    'email' => $user->email,
                     'username' => $user->username,
                     'role_id' => $user->role_id,
                     'avatar' => $user->avatar,

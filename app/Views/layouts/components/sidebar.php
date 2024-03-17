@@ -96,37 +96,51 @@
                 </ul>
             <?php else : ?>
                 <ul class="menu">
-                    <li class="sidebar-item">
+                    <li class="sidebar-item <?= service('uri')->getSegment(1) == 'dashboard' ? 'active' : '' ?>">
                         <a href="<?= base_url('/dashboard'); ?>" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="sidebar-item <?= service('uri')->getSegment(1) == 'profile' ? 'active' : '' ?>">
-                        <a href="<?= base_url('/profile'); ?>" class='sidebar-link'>
-                            <i class="bi bi-person-fill"></i>
-                            <span>Profile</span>
+                    <li class="sidebar-item <?= service('uri')->getSegment(1) == 'mitra' ? 'active' : '' ?>">
+                        <a href="<?= base_url('/mitra'); ?>" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Mitra</span>
                         </a>
                     </li>
-                    <?php if (session()->get('is_event_collaborator')) : ?>
-                        <li class="sidebar-item <?= service('uri')->getSegment(2) == 'manage' ? 'active' : '' ?>">
-                            <a href="<?= base_url('/events/manage'); ?>" class='sidebar-link'>
-                                <i class="bi bi-calendar-event-fill"></i>
-                                <span>Manage Events</span>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                    <li class="sidebar-item <?= service('uri')->getSegment(1) == 'yourevents' ? 'active' : '' ?>">
-                        <a href="<?= base_url('/yourevents'); ?>" class='sidebar-link'>
-                            <i class="bi bi-balloon-heart-fill"></i>
-                            <span>Your Events</span>
+                    <li class="sidebar-item  <?= service('uri')->getSegment(2) == 'tabung' ? 'active' : '' ?>">
+                        <a href="<?= base_url('/tabung'); ?>" class='sidebar-link'>
+                            <i class="bi bi-database"></i>
+                            <span>Tabung</span>
                         </a>
                     </li>
-                    <li class="sidebar-item <?= service('uri')->getSegment(2) == 'history' ? 'active' : '' ?>">
-                        <a href="<?= base_url('/events/history'); ?>" class='sidebar-link'>
-                            <i class="bi bi-clock-history"></i>
-                            <span>History Events</span>
+                    <li class="sidebar-item has-sub <?= $title == 'Peminjaman' ? 'active' : '' ?>">
+                        <a href="<?= base_url('/peminjaman'); ?>" class='sidebar-link'>
+                            <i class="bi bi-people-fill"></i>
+                            <span>Peminjaman</span>
                         </a>
+                        <ul class="submenu active">
+                            <li class="submenu-item <?= service('uri')->getSegment(2) == 'list-peminjaman' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/peminjaman/list-peminjaman'); ?>" class="submenu-link">History</a>
+                            </li>
+                            <li class="submenu-item <?= service('uri')->getSegment(2) == 'list-request-peminjaman' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/peminjaman/list-request-peminjaman'); ?>" class="submenu-link">Request</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item has-sub <?= $title == 'Pengaturan' ? 'active' : '' ?>">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-gear"></i>
+                            <span>Pengaturan</span>
+                        </a>
+                        <ul class="submenu active">
+                            <li class="submenu-item <?= service('uri')->getSegment(2) == 'identitas' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/pengaturan/identitas'); ?>" class="submenu-link">Identitas</a>
+                            </li>
+                            <li class="submenu-item <?= service('uri')->getSegment(2) == 'akun' ? 'active' : '' ?>">
+                                <a href="<?= base_url('/pengaturan/akun'); ?>" class="submenu-link">Akun</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             <?php endif; ?>

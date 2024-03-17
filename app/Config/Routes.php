@@ -8,6 +8,7 @@ use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\Home;
 use App\Controllers\User\UserDashboardController;
+use App\Controllers\User\UserMitraController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -36,6 +37,11 @@ $routes->group(
     ['filter' => 'AuthFilter'],
     function ($routes) {
         $routes->get('dashboard', [UserDashboardController::class, 'index']);
+        $routes->group('mitra', function ($routes){
+            $routes->get('/', [UserMitraController::class, 'index']);
+            $routes->get('request', [UserMitraController::class, 'request']);
+            $routes->post('store', [UserMitraController::class, 'store']);
+        });
 
         $routes->group('admin', function ($routes) {
             $routes->get('dashboard', [AdminDashboardController::class, 'index']);
