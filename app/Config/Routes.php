@@ -43,7 +43,7 @@ $routes->group(
             $routes->post('store', [UserMitraController::class, 'store']);
         });
 
-        $routes->group('admin', function ($routes) {
+        $routes->group('admin', ['filter' => 'AdminFilter'], function ($routes) {
             $routes->get('dashboard', [AdminDashboardController::class, 'index']);
             $routes->group('tabung', function($routes){
                 $routes->get('/', [AdminTabungController::class, 'stock']);
