@@ -24,8 +24,12 @@
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label class="fw-bold" for="address">Alamat Mitra</label>
-                                        <p><?= $mitra->address ?></p>
+                                        <label class="fw-bold" for="address">Alamat Mitra: </label>
+                                        <div id="list-address">
+                                            <?php foreach ($addresses as $address) : ?>
+                                                <li class="<?= $address->main_address == 1 ? 'fw-bold' : "" ?>"><?= $address->name ?><?= $address->main_address == 1 ? ' - Alamat Utama' : "" ?></li>
+                                            <?php endforeach; ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -48,12 +52,15 @@
                                 </div>
                                 <?php if ($mitra->verified == null) : ?>
                                     <div class="col-12 d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-outline-primary me-1 mb-1">Edit</button>
-                                        <button type="submit" class="btn btn-primary me-1 mb-1">Cancel</button>
+                                        <a href="<?= base_url("mitra/edit/" . $mitra->id) ?>" type="submit" class="btn btn-outline-primary me-1 mb-1">Edit</a>
+                                        <a type="submit" class="btn btn-primary me-1 mb-1 delete-btn" data-mitra-id="<?= $mitra->id ?>">Cancel</a>
                                     </div>
                                 <?php elseif ($mitra->verified == 1) : ?>
                                     <div class="col-12 d-flex justify-content-center">
                                         <a class="btn btn-success">Approved</a>
+                                        <button type="button" class="btn btn-outline-primary block" data-bs-toggle="modal" id="add-address-btn" data-bs-target="#exampleModalCenter">
+                                            Add Address
+                                        </button>
                                     </div>
                                 <?php else : ?>
                                     <div class="col-12 d-flex justify-content-center">
@@ -67,7 +74,43 @@
             <?php endforeach; ?>
         </div>
     </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Tambahkan Alamat
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="address">Alamat</label>
+                            <input type="text" id="address" data-mitra-id="<?= $mitra->id ?>" class="form-control" name="address">
+                            <div class="invalid-feedback">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <a type="button" class="btn btn-primary ms-1 submit-add-address">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Submit</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+
 
 <?= $this->endSection(); ?>
 
@@ -94,5 +137,69 @@
         <?php endif; ?>
     })
 </script>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.delete-btn', function(e) {
+            e.preventDefault();
 
+            var deleteButton = $(this);
+            mitra_id = deleteButton.data("mitra-id")
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "anda tidak dapat mengembalikan pengajuan yang sudah dibatalkan",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+                confirmButtonColor: "#f14836"
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '<?= base_url() ?>mitra/delete/' + mitra_id,
+                        type: 'DELETE',
+                        success: function(response) {
+                            window.location.href = '<?= base_url() ?>mitra';
+                        }
+                    })
+                }
+            });
+        });
+
+        $(document).on('click', '#add-address-btn', function(e) {
+            e.preventDefault();
+            $('#exampleModalCenter').modal('show');
+            $('.modal-backdrop').show();
+        });
+
+        $(document).on('click', '.submit-add-address', function(e) {
+            e.preventDefault();
+            var address = $('#address').val();
+            var mitra_id = $('#address').data('mitra-id');
+
+            $.ajax({
+                url: '<?= base_url() ?>mitra/add-address/' + mitra_id,
+                type: 'POST',
+                data: {
+                    'address': address
+                },
+                success: function(response) {
+                    // response = JSON.parse(response)
+                    if (response.status == 'error') {
+
+                    } else {
+                        $('#exampleModalCenter').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('body').removeAttr('style');
+                        $('.modal-backdrop').hide();
+                        $('#address').val('');
+                        $('#list-address').append(`<li>${address}</li>`);
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                }
+            })
+
+        });
+    });
+</script>
 <?= $this->endSection(); ?>

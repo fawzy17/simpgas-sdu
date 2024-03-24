@@ -9,6 +9,8 @@ use App\Controllers\Auth\RegisterController;
 use App\Controllers\Home;
 use App\Controllers\User\UserDashboardController;
 use App\Controllers\User\UserMitraController;
+use App\Controllers\User\UserPeminjamanController;
+use App\Controllers\User\UserTabungController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -41,8 +43,20 @@ $routes->group(
             $routes->get('/', [UserMitraController::class, 'index']);
             $routes->get('request', [UserMitraController::class, 'request']);
             $routes->post('store', [UserMitraController::class, 'store']);
+            $routes->get('edit/(:num)', [UserMitraController::class, 'edit']);
+            $routes->post('update', [UserMitraController::class, 'update']);
+            $routes->post('add-address/(:num)', [UserMitraController::class, 'add_address']);
+            $routes->delete('delete/(:num)', [UserMitraController::class, 'delete']);
         });
-
+        $routes->group('tabung', function ($routes){
+            $routes->get('/', [UserTabungController::class, 'index']);
+        });
+        $routes->group('peminjaman', function($routes){
+            $routes->get('history', [UserPeminjamanController::class, 'history']);
+            $routes->get('request', [UserPeminjamanController::class, 'request']);
+            $routes->post('request', [UserPeminjamanController::class, 'store']);
+        });
+        
         $routes->group('admin', ['filter' => 'AdminFilter'], function ($routes) {
             $routes->get('dashboard', [AdminDashboardController::class, 'index']);
             $routes->group('tabung', function($routes){

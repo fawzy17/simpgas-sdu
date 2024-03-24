@@ -12,7 +12,7 @@ class PeminjamanModel extends Model
     protected $returnType       = 'App\Entities\PeminjamanEntity';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['loan_code', 'mitra_id', 'tabung_id', 'amount', 'approval', 'status'];
+    protected $allowedFields    = ['loan_code', 'mitra_id', 'tabung_id', 'amount', 'approval', 'status', 'address_id'];
 
     protected bool $allowEmptyInserts = false;
 
@@ -60,6 +60,26 @@ class PeminjamanModel extends Model
             ->join('tabungs', 'tabungs.id = peminjamans.tabung_id', 'LEFT')
             ->where('peminjamans.status', 'done') // Hanya peminjaman yang telah di-approve
             ->groupBy('peminjamans.mitra_id, peminjamans.tabung_id')
+            ->get()
+            ->getResult();
+    }
+    public function get_all_peminjaman_history($mitra_id)
+    {
+        return $this->db->table('peminjamans')
+            ->select('peminjamans.*')
+            ->join('tabungs', 'tabungs.id = peminjamans.tabung_id', 'LEFT')
+            ->where('peminjamans.mitra_id', $mitra_id)
+            ->orderBy('peminjamans.loan_code')
+            ->get()
+            ->getResult();
+    }
+    public function get_all_peminjaman_history_by_loan_code($mitra_id)
+    {
+        return $this->db->table('peminjamans')
+            ->select('peminjamans.loan_code')
+            ->where('peminjamans.mitra_id', $mitra_id)
+            ->groupBy('peminjamans.loan_code')
+            ->orderBy("created_at", "asc")
             ->get()
             ->getResult();
     }

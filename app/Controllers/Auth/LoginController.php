@@ -5,6 +5,7 @@ namespace App\Controllers\Auth;
 use App\Controllers\BaseController;
 use App\Controllers\Home;
 use App\Models\UserModel;
+use CodeIgniter\Commands\Database\Seed;
 use Google_Client;
 
 class LoginController extends BaseController

@@ -43,6 +43,11 @@ class PeminjamanMigration extends Migration
                 'constraint' => ['waiting', 'sent', 'done'],
                 'default' => NULL
             ],
+            'address_id' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true,
+            ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT NULL',
             'deleted_at DATETIME DEFAULT NULL',
@@ -50,6 +55,7 @@ class PeminjamanMigration extends Migration
         $this->forge->addPrimaryKey('id');
         $this->forge->addForeignKey('mitra_id', 'mitras', 'id', '', 'CASCADE');
         $this->forge->addForeignKey('tabung_id', 'tabungs', 'id', '', 'CASCADE');
+        $this->forge->addForeignKey('address_id', 'addresses', 'id', '', 'CASCADE');
         $this->forge->createTable('peminjamans');
     }
 

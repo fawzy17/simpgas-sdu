@@ -12,7 +12,6 @@ class MitraSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'PT. IndoTera',
-                'address' => 'JL. Jendral Ahmad Yani',
                 'user_id' => 3,
                 'verified' => 1,
                 'pic_name' => 'Rianto',
@@ -21,8 +20,7 @@ class MitraSeeder extends Seeder
             [
                 'id' => 2,
                 'name' => 'PT. Hedera',
-                'address' => 'JL. Jendral Sudirman',
-                'user_id' => 3,
+                'user_id' => 4,
                 'verified' => 1,
                 'pic_name' => 'Rahma',
                 'pic_contact' => 'rahma@gmail.com',
@@ -30,8 +28,7 @@ class MitraSeeder extends Seeder
             [
                 'id' => 3,
                 'name' => 'PT. Blackrock',
-                'address' => 'JL. Jendral Ahmad Yani',
-                'user_id' => 3,
+                'user_id' => 5,
                 'verified' => 0,
                 'pic_name' => 'Leona',
                 'pic_contact' => '@leona.br',
@@ -39,8 +36,7 @@ class MitraSeeder extends Seeder
             [
                 'id' => 4,
                 'name' => 'PT. Tesla',
-                'address' => 'JL. Kuningan',
-                'user_id' => 3,
+                'user_id' => 6,
                 'verified' => NULL,
                 'pic_name' => 'Tantan',
                 'pic_contact' => '089451347534',

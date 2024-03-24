@@ -4,14 +4,14 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class MitraMigration extends Migration
+class AddressMigration extends Migration
 {
     public function up()
     {
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
-                'constraint' => 5,
+                'constraint' => 5, 
                 'unsigned' => true,
                 'auto_increment' => true
             ],
@@ -19,35 +19,28 @@ class MitraMigration extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'user_id' => [
+            'mitra_id' => [
                 'type' => 'INT',
                 'constraint' => 5,
                 'unsigned' => true,
             ],
-            'verified' => [
+            'main_address' => [
                 'type' => 'TINYINT',
                 'constraint' => 1,
                 'default' => NULL
-            ],
-            'pic_name' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-            ],
-            'pic_contact' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
             ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
             'updated_at DATETIME DEFAULT NULL',
             'deleted_at DATETIME DEFAULT NULL',
         ]);
+
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
-        $this->forge->createTable('mitras');
+        $this->forge->addForeignKey('mitra_id', 'mitras', 'id', '', 'CASCADE');
+        $this->forge->createTable('addresses');
     }
 
     public function down()
     {
-        $this->forge->dropTable('mitras');
+        $this->forge->dropTable('addresses');
     }
 }

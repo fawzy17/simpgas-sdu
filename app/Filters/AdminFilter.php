@@ -24,8 +24,8 @@ class AdminFilter implements FilterInterface
      * @return RequestInterface|ResponseInterface|string|void
      */
     public function before(RequestInterface $request, $arguments = null)
-    {
-        if (session()->get('role_id') != 1 || session()->get('role_id') != 2) {
+    {   
+        if (session()->get('role_id') != 1 && session()->get('role_id') != 2) {
             return redirect()->to(base_url('/dashboard'))->with('error_message', 'Anda tidak memiliki akses admin');
         } 
     }

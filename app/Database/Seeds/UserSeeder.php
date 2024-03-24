@@ -25,9 +25,30 @@ class UserSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'username' => 'user',
+                'username' => 'user3',
                 'password' => password_hash(12345678, PASSWORD_DEFAULT),
-                'email' => 'user@gmail.com',
+                'email' => 'user3@gmail.com',
+                'role_id' => 3,
+            ],
+            [
+                'id' => 4,
+                'username' => 'user4',
+                'password' => password_hash(12345678, PASSWORD_DEFAULT),
+                'email' => 'user4@gmail.com',
+                'role_id' => 3,
+            ],
+            [
+                'id' => 5,
+                'username' => 'user5',
+                'password' => password_hash(12345678, PASSWORD_DEFAULT),
+                'email' => 'user5@gmail.com',
+                'role_id' => 3,
+            ],
+            [
+                'id' => 6,
+                'username' => 'user6',
+                'password' => password_hash(12345678, PASSWORD_DEFAULT),
+                'email' => 'user6@gmail.com',
                 'role_id' => 3,
             ],
 

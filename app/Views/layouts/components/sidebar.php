@@ -108,25 +108,17 @@
                             <span>Mitra</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  <?= service('uri')->getSegment(2) == 'tabung' ? 'active' : '' ?>">
+                    <li class="sidebar-item  <?= service('uri')->getSegment(1) == 'tabung' ? 'active' : '' ?>">
                         <a href="<?= base_url('/tabung'); ?>" class='sidebar-link'>
                             <i class="bi bi-database"></i>
                             <span>Tabung</span>
                         </a>
                     </li>
-                    <li class="sidebar-item has-sub <?= $title == 'Peminjaman' ? 'active' : '' ?>">
-                        <a href="<?= base_url('/peminjaman'); ?>" class='sidebar-link'>
+                    <li class="sidebar-item <?= $title == 'Peminjaman' ? 'active' : '' ?>">
+                        <a href="<?= base_url('/peminjaman/history'); ?>" class='sidebar-link'>
                             <i class="bi bi-people-fill"></i>
                             <span>Peminjaman</span>
                         </a>
-                        <ul class="submenu active">
-                            <li class="submenu-item <?= service('uri')->getSegment(2) == 'list-peminjaman' ? 'active' : '' ?>">
-                                <a href="<?= base_url('/peminjaman/list-peminjaman'); ?>" class="submenu-link">History</a>
-                            </li>
-                            <li class="submenu-item <?= service('uri')->getSegment(2) == 'list-request-peminjaman' ? 'active' : '' ?>">
-                                <a href="<?= base_url('/peminjaman/list-request-peminjaman'); ?>" class="submenu-link">Request</a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="sidebar-item has-sub <?= $title == 'Pengaturan' ? 'active' : '' ?>">
                         <a href="#" class='sidebar-link'>
