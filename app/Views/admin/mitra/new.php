@@ -45,6 +45,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="pic_name">Nama PIC</label>
+                                        <input type="text" id="pic_name" class="form-control <?= $validation->hasError('pic_name') ? 'is-invalid' : ''; ?>" name="pic_name" value="<?= set_value('pic_name', old('pic_name')); ?>">
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('pic_name'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="pic_contact">Kontak PIC</label>
+                                        <input type="text" id="pic_contact" class="form-control <?= $validation->hasError('pic_contact') ? 'is-invalid' : ''; ?>" name="pic_contact" value="<?= set_value('pic_contact', old('pic_contact')); ?>">
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('pic_contact'); ?>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>

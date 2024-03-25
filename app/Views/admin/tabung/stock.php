@@ -30,6 +30,7 @@
                         <th>Kategori</th>
                         <th>Stok</th>
                         <th>Dipinjam</th>
+                        <th>Ready</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -50,6 +51,7 @@
                             </td>
                             <td class="text-left"><?= $tabung->stock ?></td>
                             <td class="text-left"><?= $tabung->total_borrowed ?> </td>
+                            <td class="text-left"><?= $tabung->stock - $tabung->total_borrowed ?> </td>
                             <td class="text-left">
                                 <a href="<?= base_url('/admin/tabung/edit/' . $tabung->id); ?>" class="btn btn-success edit-btn" type="submit" data-id-tabung="<?= $tabung->id ?>">Edit</a>
                                 <button class="btn btn-danger delete-tabung-btn" type="submit" data-id-tabung="<?= $tabung->id ?>" data-name-tabung="<?= $tabung->name ?>" data-tubes-borrowed="<?= $tabung->total_borrowed ?>">Delete</button>

@@ -86,6 +86,7 @@ $routes->group(
                 $routes->get('/ ', [AdminPeminjamanController::class, 'list_peminjaman']);
                 $routes->get('list-peminjaman', [AdminPeminjamanController::class, 'list_peminjaman']);
                 $routes->get('list-request-peminjaman', [AdminPeminjamanController::class, 'list_request_peminjaman']);
+                $routes->get('get-addresses-by-mitra-id/(:num)', [AdminPeminjamanController::class, 'get_addresses_by_mitra_id']);
                 $routes->get('new', [AdminPeminjamanController::class, 'new']);
                 $routes->post('new', [AdminPeminjamanController::class, 'store']);
                 $routes->post('approve', [AdminPeminjamanController::class, 'approve']);

@@ -721,7 +721,7 @@ var Choices = /** @class */function () {
     if (!Array.isArray(choicesArrayOrFetcher)) {
       throw new TypeError(".setChoices must be called either with array of choices with a function resulting into Promise of array of choices");
     }
-    this.containerOuter.removeLoadingState();
+    // this.containerOuter.removeLoadingState();
     this._startLoading();
     choicesArrayOrFetcher.forEach(function (groupOrChoice) {
       if (groupOrChoice.choices) {
@@ -1116,7 +1116,7 @@ var Choices = /** @class */function () {
       }
     } else {
       this.enable();
-      this.containerOuter.removeLoadingState();
+      // this.containerOuter.removeLoadingState();
       if (this._isSelectOneElement) {
         if (placeholderItem) {
           placeholderItem.innerHTML = this._placeholderValue || '';

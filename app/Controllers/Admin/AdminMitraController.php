@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\AddressModel;
 use App\Models\MitraModel;
 use App\Models\TabungModel;
 use App\Models\UserModel;
@@ -14,6 +15,7 @@ class AdminMitraController extends BaseController
     {
         $mitraModel = new MitraModel();
         $mitra = $mitraModel->get_mitra();
+
         $data = [
             'mitras' => $mitra,
             'title' => 'Mitra'
@@ -24,9 +26,13 @@ class AdminMitraController extends BaseController
     public function request_mitra()
     {
         $mitraModel = new MitraModel();
-        $mitra = $mitraModel->findAll();
+        $mitras = $mitraModel->query("
+            SELECT mitras.*, addresses.name AS address
+            FROM mitras
+            LEFT JOIN addresses ON addresses.mitra_id = mitras.id AND addresses.main_address = 1
+        ")->getResult();
         $data = [
-            'mitras' => $mitra,
+            'mitras' => $mitras,
             'title' => 'Mitra'
         ];
 
@@ -66,11 +72,24 @@ class AdminMitraController extends BaseController
         $user = $userModel->where('email', $validateData['email'])->first();
 
         $mitra->name = $validateData['name'];
-        $mitra->address = $validateData['address'];
         $mitra->user_id = $user->id;
+        $mitra->pic_name = $validateData['pic_name'];
+        $mitra->pic_contact = $validateData['pic_contact'];
+
 
         $mitraModel = new MitraModel();
         $mitraModel->save($mitra);
+
+        $mitra_id = $mitraModel->insertID();
+
+        $data = [
+            'name' =>  $validateData['address'],
+            'mitra_id' => $mitra_id,
+            'main_address' => 1
+        ];
+
+        $addressModel = new AddressModel();
+        $addressModel->save($data);
 
         return redirect()->to(base_url('admin/mitra/request-mitra'))->with('success_message', 'Berhasil menambahkan data mitra');
     }

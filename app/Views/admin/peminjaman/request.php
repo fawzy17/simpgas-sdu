@@ -20,7 +20,7 @@
                 Tambah
             </a>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="overflow: auto;">
             <table id="table1" class="table table-stripped nowrap display" style="width:100%">
                 <thead class="fixed-header">
                     <tr>
@@ -116,14 +116,13 @@
 
 <?= $this->section('scripts'); ?>
 <script>
+    $('#table1').show()
     let jquery_datatable = $("#table1").DataTable({
         "columnDefs": [{
             "type": "string",
             "targets": "_all"
         }],
-        "order": [
-            [3, "asc"]
-        ],
+        "order":  false,
         fixedColumns: {
             start: 3,
             end: 0
@@ -131,7 +130,6 @@
         paging: false,
         scrollCollapse: true,
         scrollX: true,
-        scrollY: 300
     })
 
     const setTableColor = () => {

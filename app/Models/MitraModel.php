@@ -44,6 +44,7 @@ class MitraModel extends Model
     {
         return $this->db->table('mitras')
             ->select('mitras.*, users.email, users.username, COALESCE(SUM(CASE WHEN peminjamans.status = "done" THEN peminjamans.amount ELSE 0 END), 0) AS total_tubes_borrowed')
+            ->select('(SELECT name FROM addresses WHERE mitra_id = mitras.id ORDER BY id LIMIT 1) AS address')
             ->join('users', 'users.id = mitras.user_id')
             ->join('peminjamans', 'peminjamans.mitra_id = mitras.id', 'LEFT')
             ->groupBy('mitras.id')

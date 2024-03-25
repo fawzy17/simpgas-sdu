@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\AddressModel;
 use App\Models\MitraModel;
 use App\Models\PeminjamanModel;
 use App\Models\TabungModel;
@@ -129,7 +130,7 @@ class AdminPeminjamanController extends BaseController
 
         $currentDate = date('Ymd');
 
-        $loan_code = $currentDate . $uniqueCode;    
+        $loan_code = $currentDate . $uniqueCode;
 
 
         foreach ($tabungs as $tabung) {
@@ -138,6 +139,7 @@ class AdminPeminjamanController extends BaseController
                 $peminjaman->loan_code = $loan_code;
                 $peminjaman->mitra_id = $validateData['mitra'];
                 $peminjaman->tabung_id = $tabung->id;
+                $peminjaman->address_id = $this->request->getPost('address');
                 $peminjaman->amount = $validateData[$tabung->name . $tabung->id];
                 // dd($peminjaman);
 
@@ -259,5 +261,21 @@ class AdminPeminjamanController extends BaseController
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Data tidak ditemukan']);
         }
+    }
+
+    public function get_addresses_by_mitra_id($id)
+    {
+        $addressModel = new AddressModel();
+        $addresses = $addressModel->where('mitra_id', $id)->findAll();
+
+        $response = array(
+            'addresses' => $addresses
+        );
+
+        $json_response = json_encode($response);
+
+        header('Content-Type: application/json');
+
+        echo $json_response;
     }
 }

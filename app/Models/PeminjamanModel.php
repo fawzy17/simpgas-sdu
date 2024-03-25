@@ -49,7 +49,8 @@ class PeminjamanModel extends Model
             mitras.name as mitra_name,
             tabungs.name as tabung_name,
             tabungs.id as tabung_id,
-        ')->get()->getResult();
+        ')
+        ->orderBy('peminjamans.created_at', 'asc')->get()->getResult();
     }
 
     public function get_all_peminjaman_by_mitra()

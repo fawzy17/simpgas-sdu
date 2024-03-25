@@ -22,6 +22,7 @@
                                     <div class="form-group">
                                         <label for="mitra">Nama Mitra</label>
                                         <select id="mitra" name="mitra" class="choices form-select  <?= $validation->hasError('mitra') ? 'is-invalid' : ''; ?>">
+                                            <option value="">Pilih mitra</option>
                                             <?php
                                             foreach ($mitras as $mitra) :
                                                 if ($mitra->verified == 1) : ?>
@@ -38,16 +39,15 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="address">Alamat</label>
-                                        <input type="text" id="address" class="form-control <?= $validation->hasError('address') ? 'is-invalid' : ''; ?>" placeholder="Dikirim ke alamat ini" name="address" value="<?= set_value('address', old('address')); ?>">
-                                        <div class="invalid-feedback">
-                                            <?= $validation->getError('address'); ?>
-                                        </div>
+                                        <select id="address" name="address" class="form-control">
+                                            <option value="">Pilih alamat</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <?php foreach ($tabungs as $tabung) : ?>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="<?= $tabung->name.$tabung->id ?>">
+                                            <label for="<?= $tabung->name . $tabung->id ?>">
                                                 <?= $tabung->name ?> (<?= $tabung->category_name ?>
                                                 <?php if ($tabung->category_massa == 'kubik') : ?>
                                                     m<sup>3</sup>
@@ -55,9 +55,9 @@
                                                     Kg
                                                     <?php endif; ?>) - Stock: <?= $tabung->stock_ready ?>
                                             </label>
-                                            <input type="number" id="<?= $tabung->name.$tabung->id ?>" class="form-control <?= $validation->hasError($tabung->name.$tabung->id) ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="<?= $tabung->name.$tabung->id ?>" value="<?= set_value($tabung->name.$tabung->id, old($tabung->name.$tabung->id)) ?? '0'; ?>">
+                                            <input type="number" id="<?= $tabung->name . $tabung->id ?>" class="form-control <?= $validation->hasError($tabung->name . $tabung->id) ? 'is-invalid' : ''; ?>" placeholder="10xxxx" name="<?= $tabung->name . $tabung->id ?>" value="<?= set_value($tabung->name . $tabung->id, old($tabung->name . $tabung->id)) ?? '0'; ?>">
                                             <div class="invalid-feedback">
-                                                <?= $validation->getError($tabung->name.$tabung->id); ?>
+                                                <?= $validation->getError($tabung->name . $tabung->id); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -99,4 +99,45 @@
 </script>
 <script src="<?= base_url('assets/js/choices.js'); ?>"></script>
 <script src="<?= base_url('assets/js/form-element-select.js'); ?>"></script>
+
+<script>
+    $(document).ready(function() {
+        var singleFetch = new Choices('#address', {
+            allowHTML: false,
+        });
+
+        $(document).on('change', '#mitra', function(e) {
+            mitra_id = $(this).val();
+            fetchDataAndSetChoices(mitra_id)
+        });
+
+        function fetchDataAndSetChoices(mitra_id) {
+            fetch(
+                    '<?= base_url() ?>admin/peminjaman/get-addresses-by-mitra-id/' + mitra_id
+                )
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    var choices = data.addresses.map(function(address) {
+                        return {
+                            label: address.name,
+                            value: address.id
+                        };
+                    });
+
+                    singleFetch.clearChoices();
+                    singleFetch.clearStore();
+
+                    singleFetch.setChoices(choices, 'value', 'label', true);
+                    // this.containerOuter.removeLoadingState(); ini diilangin dari choices.js
+
+                    // singleFetch.setChoiceByValue(address[0].id);
+                })
+                .catch(function(error) {
+                    console.error('Error fetching data:', error);
+                });
+        }
+    });
+</script>
 <?= $this->endSection(); ?>
